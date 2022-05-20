@@ -5,94 +5,105 @@ using UnityEngine.AI;
 
 public class Skeleton : MonoBehaviour
 {
-    private Vector3 lastPos;
-    private Quaternion lastRotation;
-    private Transform obj;
-    private GameObject skele;
-    private NavMeshAgent agent;
+    private Vector3 _lastPos;
+    private Transform _obj;
+    private GameObject _skele;
     public float baseSpeed = 5;
-    private float speed = 5;
-    private float rotation;
+    private float _speed = 5;
+    private float _rotation;
     public float sprintMultiplier = 1.5F;
-    private float lastFire;
+    private float _backWalk = 0.5F;
+    private float _lastFire;
     public float fireDelay;
 
 
     void Start()
     {
-        obj = gameObject.transform;
-        lastPos = obj.position;
-        agent = GetComponent<NavMeshAgent>();
-        skele = obj.transform.GetChild(0).gameObject;
-        speed = baseSpeed;
-        rotation = speed * 50;
+        _obj = gameObject.transform;
+        _lastPos = _obj.position;
+        _skele = _obj.transform.GetChild(0).gameObject;
+        _speed = baseSpeed;
+        _rotation = _speed * 50;
     }
 
     void Update()
     {
+
         //Movement
         float z = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(0, 0, z);
-        transform.Translate(movement * speed * Time.deltaTime);
-
-        //Rotation
-        if (Input.GetKey(KeyCode.D))
+        transform.Translate(movement * _speed * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            transform.Rotate(Vector3.up * rotation * Time.deltaTime);
+            _speed = baseSpeed * _backWalk;
+        }
+        if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            _speed = baseSpeed;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        //_rotation
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(-Vector3.up * rotation * Time.deltaTime);
+            transform.Rotate(Vector3.up * _rotation * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.Rotate(-Vector3.up * _rotation * Time.deltaTime);
         }
 
         //Sprint
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.DownArrow))
         {
-            speed = baseSpeed * sprintMultiplier;
+            
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            speed = baseSpeed;
+            _speed = baseSpeed * sprintMultiplier;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _speed = baseSpeed;
         }
 
         // Animation
 
-        if (obj.position == lastPos)
+        if (_obj.position == _lastPos)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (Time.time > lastFire + fireDelay)
+                if (Time.time > _lastFire + fireDelay)
                 {
-                    skele.GetComponent<Animator>().SetTrigger("Attack");
-                    lastFire = Time.time;
+                    _skele.GetComponent<Animator>().SetTrigger("Attack");
+                    _lastFire = Time.time;
                 }
             }
         }
         else
-        if (obj.position != lastPos)
+        if (_obj.position != _lastPos)
         {
-            lastPos = obj.position;
+            _lastPos = _obj.position;
         }
         {
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
-                skele.GetComponent<Animator>().SetBool("Walk", true);
+                _skele.GetComponent<Animator>().SetBool("Walk", true);
             }
-            else if (Input.GetKeyUp(KeyCode.W))
+            else if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
             {
-                skele.GetComponent<Animator>().SetBool("Walk", false);
+                _skele.GetComponent<Animator>().SetBool("Walk", false);
             }
         }
         {
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
-                skele.GetComponent<Animator>().SetBool("Back", true);
+                _skele.GetComponent<Animator>().SetBool("Back", true);
             }
-            else if (Input.GetKeyUp(KeyCode.S))
+            else if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
             {
-                skele.GetComponent<Animator>().SetBool("Back", false);
+                _skele.GetComponent<Animator>().SetBool("Back", false);
             }
         }
     }

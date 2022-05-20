@@ -1872,7 +1872,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 880339247, guid: 5078f29c363a5c74487846ae705fa902, type: 3}
       propertyPath: fireDelay
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 150379562159570357, guid: 5078f29c363a5c74487846ae705fa902, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3487,7 +3487,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &466106021
 RectTransform:
   m_ObjectHideFlags: 0

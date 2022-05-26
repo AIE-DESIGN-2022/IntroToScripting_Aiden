@@ -23,7 +23,7 @@ public class Skeleton : MonoBehaviour
         _lastPos = _obj.position;
         _skele = _obj.transform.GetChild(0).gameObject;
         _speed = baseSpeed;
-        _rotation = _speed * 50;
+        _rotation = _speed * 30;
     }
 
     void Update()
@@ -31,8 +31,13 @@ public class Skeleton : MonoBehaviour
 
         //Movement
         float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(0, 0, z);
+        Vector3 rotation = new Vector3(0, x, 0);
         transform.Translate(movement * _speed * Time.deltaTime);
+        transform.Rotate(rotation * _rotation * Time.deltaTime);
+
+        //Srint Functionality Stuff
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             _speed = baseSpeed * _backWalk;
@@ -42,16 +47,6 @@ public class Skeleton : MonoBehaviour
             _speed = baseSpeed;
         }
 
-        //_rotation
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Rotate(Vector3.up * _rotation * Time.deltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Rotate(-Vector3.up * _rotation * Time.deltaTime);
-        }
 
         //Sprint
         if (Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.DownArrow))

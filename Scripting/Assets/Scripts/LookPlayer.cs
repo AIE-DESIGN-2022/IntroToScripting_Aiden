@@ -6,18 +6,18 @@ using UnityEngine.AI;
 public class LookPlayer : MonoBehaviour {
 
     public Transform target;
-    NavMeshAgent agent; 
+
 
     // Use this for initialization
 	void Start () 
     {
-        agent = GetComponent<NavMeshAgent>();
-        target = GameObject.FindGameObjectWithTag("MainCamera").transform;
+
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+        target = GameObject.FindGameObjectWithTag("MainCamera").transform;
         Vector3 rot = Quaternion.LookRotation(target.position - transform.position).eulerAngles;
         rot.x = rot.z = 0;
         transform.rotation = Quaternion.Euler(rot);

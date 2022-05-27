@@ -14,46 +14,62 @@ public class Enemy : MonoBehaviour
     public bool playerInCone;
     public GameObject exclamationMark;
     public bool alerted;
+    private GameObject theSpookySkeleton;
+    public bool alive;
     // Start is called before the first frame update
     void Start()
     {
+        theSpookySkeleton = GameObject.FindGameObjectWithTag("Player").gameObject;
         cone = gameObject.transform.GetChild(2).gameObject;
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        target = theSpookySkeleton.transform;
         currentSuspicion = 0;
         suspicionMeter.maxValue = maxSuspicion;
         alerted = false;
+        alive = true;
         UpdateSuspicionMeter();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentSuspicion > 0 && playerInCone == false && currentSuspicion < maxSuspicion)
+        if (alive == true)
         {
-            currentSuspicion -= Time.deltaTime;
-            UpdateSuspicionMeter();
+            if (currentSuspicion > 0 && playerInCone == false && currentSuspicion < maxSuspicion)
+            {
+                currentSuspicion -= Time.deltaTime;
+                UpdateSuspicionMeter();
+            }
+            if (currentSuspicion < 0)
+            {
+                currentSuspicion = 0;
+            }
+            if (currentSuspicion > maxSuspicion)
+            {
+                currentSuspicion = maxSuspicion;
+            }
+            if (currentSuspicion > 0)
+            {
+                suspicionMeter.gameObject.SetActive(true);
+            }
+            if (currentSuspicion <= 0 || currentSuspicion >= maxSuspicion)
+            {
+                suspicionMeter.gameObject.SetActive(false);
+            }
+            if (currentSuspicion >= maxSuspicion)
+            {
+                suspicionMeter.gameObject.SetActive(false);
+                exclamationMark.gameObject.SetActive(true);
+                alerted = true;
+            }
         }
-        if (currentSuspicion < 0)
+        else if (alive == false)
         {
-            currentSuspicion = 0;
-        }
-        if (currentSuspicion > maxSuspicion)
-        {
-            currentSuspicion = maxSuspicion;
-        }
-        if (currentSuspicion > 0)
-        {
-            suspicionMeter.gameObject.SetActive(true);
-        }
-        if (currentSuspicion <= 0 || currentSuspicion >= maxSuspicion)
-        {
+            exclamationMark.gameObject.SetActive(false);
             suspicionMeter.gameObject.SetActive(false);
-        }
-        if (currentSuspicion >= maxSuspicion)
-        {
-            suspicionMeter.gameObject.SetActive(false);
-            exclamationMark.gameObject.SetActive(true);
-            alerted = true;
+            cone.gameObject.SetActive(false);
+            transform.Rotate(-90, 0, 0);
+            transform.position = new Vector3(transform.position.x, 1.0F, transform.position.z);
+
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -65,22 +81,36 @@ public class Enemy : MonoBehaviour
     }
     public void CollisionDetected(Detection childscript)
     {
-        if (alerted == false)
+        if (alive == true)
         {
-            Vector3 rot = Quaternion.LookRotation(target.position - transform.position).eulerAngles;
-            rot.x = rot.z = 0;
-            transform.rotation = Quaternion.Euler(rot);
-            if (currentSuspicion < maxSuspicion)
+            if (alerted == false)
             {
-                currentSuspicion += Time.deltaTime;
+                if (theSpookySkeleton.GetComponent<Skeleton>().disguised == true)
+                {
+                    Vector3 rot = Quaternion.LookRotation(target.position - transform.position).eulerAngles;
+                    rot.x = rot.z = 0;
+                    transform.rotation = Quaternion.Euler(rot);
+                    if (currentSuspicion < maxSuspicion)
+                    {
+                        currentSuspicion += Time.deltaTime;
+                    }
+                    playerInCone = true;
+                    UpdateSuspicionMeter();
+                }
+                else if (theSpookySkeleton.GetComponent<Skeleton>().disguised == false)
+                {
+                    if (currentSuspicion < maxSuspicion)
+                    {
+                        currentSuspicion = maxSuspicion;
+                    }
+                    playerInCone = true;
+                    UpdateSuspicionMeter();
+                }
             }
-            playerInCone = true;
-            UpdateSuspicionMeter();
         }
     }
     public void CollisionEnded(Detection childscript)
     {
-        Debug.Log("child no longer collided");
         playerInCone = false;
     }
     private void UpdateSuspicionMeter()

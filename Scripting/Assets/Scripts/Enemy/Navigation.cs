@@ -28,26 +28,34 @@ public class Navigation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.GetComponent<Enemy>().playerInCone == true && theSpookySkeleton.GetComponent<Skeleton>().interacting == true)
+        if (gameObject.GetComponent<Enemy>().alive == true)
         {
-            suspicousOfPlayer=true;
-        }
-        else
-        {
-            suspicousOfPlayer=false;
-        }
-        float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
+            if (this.gameObject.GetComponent<Enemy>().playerInCone == true && theSpookySkeleton.GetComponent<Skeleton>().interacting == true)
+            {
+                suspicousOfPlayer = true;
+            }
+            else
+            {
+                suspicousOfPlayer = false;
+            }
+            float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
             if (distanceToTarget <= distanceReachedThreshold)
             {
                 SetAgentDestination();
             }
-        if (suspicousOfPlayer == false || gameObject.GetComponent<Enemy>().alerted == true)
-        {
-            gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+            if (suspicousOfPlayer == false || gameObject.GetComponent<Enemy>().alerted == true)
+            {
+                gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+            }
+            if (suspicousOfPlayer == true && gameObject.GetComponent<Enemy>().alerted == false)
+            {
+                gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+            }
         }
-        if (suspicousOfPlayer == true && gameObject.GetComponent<Enemy>().alerted == false)
+        else if (gameObject.GetComponent<Enemy>().alive == false)
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+            
         }
     }
 

@@ -20,13 +20,17 @@ public class healthManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentHealth == maxHealth)
+        if (currentHealth == maxHealth || currentHealth <= 0)
         {
             healthSlider.gameObject.SetActive(false);
         }
-        else if (currentHealth != maxHealth)
+        else
         {
             healthSlider.gameObject.SetActive(true);
+        }
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
         }
     }
     public void TakeDamage(float damageToTake)
@@ -34,7 +38,8 @@ public class healthManager : MonoBehaviour
             currentHealth -= damageToTake;
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            healthSlider.gameObject.SetActive(false);
+            gameObject.GetComponent<Enemy>().alive = false;
         }
             UpdateHealthBar();
     }

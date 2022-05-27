@@ -16,7 +16,8 @@ public class Skeleton : MonoBehaviour
     private float _lastFire;
     public float fireDelay;
     public bool interacting;
-
+    public bool disguised;
+    public GameObject disguise;
 
     void Start()
     {
@@ -98,6 +99,14 @@ public class Skeleton : MonoBehaviour
             {
                 _skele.GetComponent<Animator>().SetBool("Back", false);
             }
+        }
+        if (disguised == true)
+        {
+            disguise.gameObject.SetActive(true);
+        }
+        else if (disguised == false)
+        {
+            disguise.gameObject.SetActive(false);
         }
     }
 }

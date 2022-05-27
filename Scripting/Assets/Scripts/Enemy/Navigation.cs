@@ -7,12 +7,18 @@ public class Navigation : MonoBehaviour
 {
     public Transform[] patrolPoints;
     private NavMeshAgent agent;
-    private int nextLocation;
-    private int currentDestination;
+    public int nextLocation;
+    public int currentDestination;
     public float distanceReachedThreshold;
+    public bool suspicousOfPlayer;
+    public GameObject theSpookySkeleton;
+    public GameObject parentEnemy;
+    public Transform telephone;
     // Start is called before the first frame update
     void Start()
     {
+        theSpookySkeleton = GameObject.FindGameObjectWithTag("Player");
+        suspicousOfPlayer = false;
         currentDestination = -1;
         nextLocation = 0;
         agent = GetComponent<NavMeshAgent>();
@@ -22,26 +28,50 @@ public class Navigation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
-        if(distanceToTarget <= distanceReachedThreshold)
+        if (this.gameObject.GetComponent<Enemy>().playerInCone == true && theSpookySkeleton.GetComponent<Skeleton>().interacting == true)
         {
-            SetAgentDestination();
+            suspicousOfPlayer=true;
+        }
+        else
+        {
+            suspicousOfPlayer=false;
+        }
+        float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
+            if (distanceToTarget <= distanceReachedThreshold)
+            {
+                SetAgentDestination();
+            }
+        if (suspicousOfPlayer == false || gameObject.GetComponent<Enemy>().alerted == true)
+        {
+            gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+        }
+        if (suspicousOfPlayer == true && gameObject.GetComponent<Enemy>().alerted == false)
+        {
+            gameObject.GetComponent<NavMeshAgent>().isStopped = true;
         }
     }
 
     void SetAgentDestination()
     {
-        if (patrolPoints.Length > nextLocation)
+        if (gameObject.GetComponent<Enemy>().alerted == false)
         {
-            agent.SetDestination(patrolPoints[nextLocation].position);
-            currentDestination = nextLocation;
-            nextLocation++;
+            if (patrolPoints.Length > nextLocation)
+            {
+                agent.SetDestination(patrolPoints[nextLocation].position);
+                currentDestination = nextLocation;
+                nextLocation++;
+            }
+            else
+            {
+                currentDestination = -1;
+                nextLocation = 0;
+                SetAgentDestination();
+            }
         }
-        else
+        else if (gameObject.GetComponent<Enemy>().alerted == true)
         {
-            currentDestination = -1;
-            nextLocation = 0;
-            SetAgentDestination();
+            gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+            agent.SetDestination(telephone.position);
         }
     }
 }

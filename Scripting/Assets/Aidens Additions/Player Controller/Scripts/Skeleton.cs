@@ -15,6 +15,7 @@ public class Skeleton : MonoBehaviour
     private float _backWalk = 0.5F;
     private float _lastFire;
     public float fireDelay;
+    public bool interacting;
 
 
     void Start()
@@ -38,22 +39,22 @@ public class Skeleton : MonoBehaviour
         transform.Rotate(rotation * _rotation * Time.deltaTime);
 
         //Srint Functionality Stuff
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetAxis("Vertical") < 0)
         {
             _speed = baseSpeed * _backWalk;
         }
-        if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+        if (Input.GetAxis("Vertical") >= 0)
         {
             _speed = baseSpeed;
         }
 
 
         //Sprint
-        if (Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetAxis("Vertical") < 0)
         {
             
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        else if (Input.GetKey(KeyCode.LeftShift))
         {
             _speed = baseSpeed * sprintMultiplier;
         }
@@ -64,8 +65,6 @@ public class Skeleton : MonoBehaviour
 
         // Animation
 
-        if (_obj.position == _lastPos)
-        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (Time.time > _lastFire + fireDelay)
@@ -73,8 +72,7 @@ public class Skeleton : MonoBehaviour
                     _skele.GetComponent<Animator>().SetTrigger("Attack");
                     _lastFire = Time.time;
                 }
-            }
-        }
+           }
         else
         if (_obj.position != _lastPos)
         {
@@ -82,21 +80,21 @@ public class Skeleton : MonoBehaviour
         }
         {
 
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetAxis("Vertical") > 0)
             {
                 _skele.GetComponent<Animator>().SetBool("Walk", true);
             }
-            else if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+            else if (Input.GetAxis("Vertical") <= 0)
             {
                 _skele.GetComponent<Animator>().SetBool("Walk", false);
             }
         }
         {
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetAxis("Vertical") < 0)
             {
                 _skele.GetComponent<Animator>().SetBool("Back", true);
             }
-            else if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+            else if (Input.GetAxis("Vertical") >= 0)
             {
                 _skele.GetComponent<Animator>().SetBool("Back", false);
             }

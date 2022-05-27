@@ -1537,7 +1537,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-48566
+  m_Name: pb_Mesh-1710
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2142,7 +2142,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-46492
+  m_Name: pb_Mesh-1694
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2958,7 +2958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1660195166
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4995,6 +4995,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1167422032}
+    - target: {fileID: 7215119017010619743, guid: 4c37a0d76fd14054eaf541ede1b5c91b, type: 3}
+      propertyPath: interactPrompt
+      value: 
+      objectReference: {fileID: 1660195165}
+    - target: {fileID: 7215119017010619743, guid: 4c37a0d76fd14054eaf541ede1b5c91b, type: 3}
+      propertyPath: theSpookySkeleton
+      value: 
+      objectReference: {fileID: 943942878}
     - target: {fileID: 7215119017010619748, guid: 4c37a0d76fd14054eaf541ede1b5c91b, type: 3}
       propertyPath: m_Name
       value: Interactable

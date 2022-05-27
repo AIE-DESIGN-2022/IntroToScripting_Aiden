@@ -8,7 +8,7 @@ public class Interactable : MonoBehaviour
     public bool playerCollided;
     public GameObject interactPrompt;
     public GameObject theSpookySkeleton;
-    private float currentProgress;
+    public float currentProgress;
     public float maxProgess;
     public Slider progressBar;
     public bool interacting;
@@ -43,6 +43,8 @@ public class Interactable : MonoBehaviour
         }
         else if (playerCollided == false)
         {
+            //MAKE SKELETON STOP INTERACTING ONCE THIS IS DESTROYED
+            theSpookySkeleton.GetComponent <Skeleton>().interacting = false;
             interactPrompt.SetActive(false);
             UpdateProgressBar();
         }
@@ -57,6 +59,7 @@ public class Interactable : MonoBehaviour
         }
         if (currentProgress >= maxProgess)
         {
+            interactPrompt.SetActive(false);
             Destroy(gameObject);
         }
         if (currentProgress > 0)

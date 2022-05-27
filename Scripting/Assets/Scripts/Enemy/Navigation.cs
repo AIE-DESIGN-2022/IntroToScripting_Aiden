@@ -78,6 +78,7 @@ public class Navigation : MonoBehaviour
         }
         else if (gameObject.GetComponent<Enemy>().alerted == true)
         {
+            //MAKE THIS GO STRAIGHT TO THE TELEPHONE RATHER THEN GOING TO TO PATROL POINT FIRST
             gameObject.GetComponent<NavMeshAgent>().isStopped = false;
             agent.SetDestination(telephone.position);
         }

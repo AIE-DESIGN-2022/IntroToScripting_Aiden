@@ -15,11 +15,13 @@ public class TriggerBox : MonoBehaviour
     {
 
     }
+    //Checks when players enters triggerbox to communicate with parent object.
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player")
             transform.parent.GetComponent<Interactable>().playerCollided = true;
     }
+    //Checks when players exits triggerbox to communicate with parent object.
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")

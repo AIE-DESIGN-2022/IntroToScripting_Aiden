@@ -36,11 +36,13 @@ public class Enemy : MonoBehaviour
     {
         if (alive == true)
         {
+            //Constantly lowers suspicion meter if player is not in the AI's cone of vision.
             if (currentSuspicion > 0 && playerInCone == false && currentSuspicion < maxSuspicion)
             {
                 currentSuspicion -= Time.deltaTime;
                 UpdateSuspicionMeter();
             }
+            //Stops suspicion meter from going above max value or below 0.
             if (currentSuspicion < 0)
             {
                 currentSuspicion = 0;
@@ -49,6 +51,7 @@ public class Enemy : MonoBehaviour
             {
                 currentSuspicion = maxSuspicion;
             }
+            //Activates or deactivates visable suspicion meter if the value is above 0 and below max value.
             if (currentSuspicion > 0)
             {
                 suspicionMeter.gameObject.SetActive(true);
@@ -57,17 +60,19 @@ public class Enemy : MonoBehaviour
             {
                 suspicionMeter.gameObject.SetActive(false);
             }
+            //Makes enemy alerted if the suspicion meter reaches max value. Change has effect on navigation script.
             if (currentSuspicion >= maxSuspicion)
             {
                 if (alerted == false)
                 {
-                    theSpookySkeleton.GetComponent<Skeleton>().disguised = false;
+                    theSpookySkeleton.GetComponent<SkeletonController>().disguised = false;
                 }
                 suspicionMeter.gameObject.SetActive(false);
                 exclamationMark.gameObject.SetActive(true);
                 alerted = true;
             }
         }
+        //Stops movement and turns enemy to an interactable object once dead.
         else if (alive == false)
         {
             exclamationMark.gameObject.SetActive(false);
@@ -78,6 +83,7 @@ public class Enemy : MonoBehaviour
             disguiseInteract.SetActive(true);
         }
     }
+    //Takes damage when colliding with players damaging hitbox. Calls HealthManager script.
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "HurtBox")
@@ -85,13 +91,15 @@ public class Enemy : MonoBehaviour
             gameObject.GetComponent<healthManager>().TakeDamage(damage);
         }
     }
+    //Changes AI behavior based on if the player is in the AI's cone of vision.
     public void CollisionDetected(Detection childscript)
     {
         if (alive == true)
         {
             if (alerted == false)
             {
-                if (theSpookySkeleton.GetComponent<Skeleton>().disguised == true)
+                //Faces player if they are wearing a disguise while in the AI's cone of vision.
+                if (theSpookySkeleton.GetComponent<SkeletonController>().disguised == true)
                 {
                     Vector3 rot = Quaternion.LookRotation(target.position - transform.position).eulerAngles;
                     rot.x = rot.z = 0;
@@ -103,7 +111,8 @@ public class Enemy : MonoBehaviour
                     playerInCone = true;
                     UpdateSuspicionMeter();
                 }
-                else if (theSpookySkeleton.GetComponent<Skeleton>().disguised == false)
+                //Immediatly sets to alerted if the player is not wearing a disguise while in the AI's cone of vision.
+                else if (theSpookySkeleton.GetComponent<SkeletonController>().disguised == false)
                 {
                     if (currentSuspicion < maxSuspicion)
                     {
@@ -119,6 +128,7 @@ public class Enemy : MonoBehaviour
     {
         playerInCone = false;
     }
+    //Updates visable suspicion meter.
     private void UpdateSuspicionMeter()
     {
         suspicionMeter.value = currentSuspicion;

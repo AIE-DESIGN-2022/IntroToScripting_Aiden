@@ -15,6 +15,7 @@ public class Detection : MonoBehaviour
     {
         
     }
+    // This script is required to check if the player has entered the trigger box of a child object of the enemy.
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player")

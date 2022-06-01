@@ -130,6 +130,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5429990659107702035, guid: 1d9d5f66e184cab47a5ca29ce84aaaa7, type: 3}
+      propertyPath: m_Color.b
+      value: 0.1983125
+      objectReference: {fileID: 0}
+    - target: {fileID: 5429990659107702035, guid: 1d9d5f66e184cab47a5ca29ce84aaaa7, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6313726
+      objectReference: {fileID: 0}
+    - target: {fileID: 5429990659107702035, guid: 1d9d5f66e184cab47a5ca29ce84aaaa7, type: 3}
+      propertyPath: m_Color.r
+      value: 0.08627452
+      objectReference: {fileID: 0}
     - target: {fileID: 5429990659421988743, guid: 1d9d5f66e184cab47a5ca29ce84aaaa7, type: 3}
       propertyPath: m_Name
       value: Win Canvas

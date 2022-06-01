@@ -31,9 +31,11 @@ public class Navigation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Checks if player is alive before setting navigation.
         if (gameObject.GetComponent<Enemy>().alive == true)
         {
-            if (theSpookySkeleton.GetComponent<Skeleton>().interacting == true && this.gameObject.GetComponent<Enemy>().playerInCone)
+            //Makes enemy suspicious of player if the player is in their cone of vision and is currently interacting with something.
+            if (theSpookySkeleton.GetComponent<SkeletonController>().interacting == true && this.gameObject.GetComponent<Enemy>().playerInCone)
             {
                 suspicousOfPlayer = true;
             }
@@ -41,11 +43,7 @@ public class Navigation : MonoBehaviour
             {
                 suspicousOfPlayer = false;
             }
-            float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
-            if (distanceToTarget <= distanceReachedThreshold)
-            {
-                SetAgentDestination();
-            }
+            //Stops all movement if the AI is suspicious of the player
             if (suspicousOfPlayer == false || gameObject.GetComponent<Enemy>().alerted == true)
             {
                 gameObject.GetComponent<NavMeshAgent>().isStopped = false;
@@ -54,23 +52,34 @@ public class Navigation : MonoBehaviour
             {
                 gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             }
+            //Sets destination to next point once the AI is within the distance to target threshold.
+            float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
+            if (distanceToTarget <= distanceReachedThreshold)
+            {
+                SetAgentDestination();
+            }
         }
+        //Stops all movement is AI is not alive.
         else if (gameObject.GetComponent<Enemy>().alive == false)
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             
         }
+        //Sets destination when AI becomes alerted. (Called from Enemy script)
         if (gameObject.GetComponent<Enemy>().alerted == true)
         {
             SetAgentDestination();
         }
+        //Sorts telephone array based on distance from AI.
         Array.Sort(telephones, distanceComparer);
     }
 
+    //Sets destination.
     void SetAgentDestination()
     {
         if (gameObject.GetComponent<Enemy>().alerted == false)
         {
+            //Sets destination to next patrol point if not alerted.
             if (patrolPoints.Length > nextLocation)
             {
                 agent.SetDestination(patrolPoints[nextLocation].position);
@@ -84,11 +93,13 @@ public class Navigation : MonoBehaviour
                 SetAgentDestination();
             }
         }
+        //Sets destination to nearest telephone if alerted.
         else if (gameObject.GetComponent<Enemy>().alerted == true)
         {
             agent.SetDestination(telephones[0].transform.position);
         }
     }
+    //Compares distance of telephones (not sure how it works exactly got it from google)
     public class DistanceComparer : IComparer<Transform>
     {
         private Transform target;

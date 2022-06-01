@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,7 +14,8 @@ public class Navigation : MonoBehaviour
     public bool suspicousOfPlayer;
     public GameObject theSpookySkeleton;
     public GameObject parentEnemy;
-    public Transform telephone;
+    public Transform[] telephones;
+    private DistanceComparer distanceComparer;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,7 @@ public class Navigation : MonoBehaviour
         currentDestination = -1;
         nextLocation = 0;
         agent = GetComponent<NavMeshAgent>();
+        distanceComparer = new DistanceComparer(transform);
         SetAgentDestination();
     }
 
@@ -30,7 +33,7 @@ public class Navigation : MonoBehaviour
     {
         if (gameObject.GetComponent<Enemy>().alive == true)
         {
-            if (this.gameObject.GetComponent<Enemy>().playerInCone == true && theSpookySkeleton.GetComponent<Skeleton>().interacting == true)
+            if (theSpookySkeleton.GetComponent<Skeleton>().interacting == true && this.gameObject.GetComponent<Enemy>().playerInCone)
             {
                 suspicousOfPlayer = true;
             }
@@ -57,6 +60,11 @@ public class Navigation : MonoBehaviour
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             
         }
+        if (gameObject.GetComponent<Enemy>().alerted == true)
+        {
+            SetAgentDestination();
+        }
+        Array.Sort(telephones, distanceComparer);
     }
 
     void SetAgentDestination()
@@ -78,9 +86,22 @@ public class Navigation : MonoBehaviour
         }
         else if (gameObject.GetComponent<Enemy>().alerted == true)
         {
-            //MAKE THIS GO STRAIGHT TO THE TELEPHONE RATHER THEN GOING TO TO PATROL POINT FIRST
-            gameObject.GetComponent<NavMeshAgent>().isStopped = false;
-            agent.SetDestination(telephone.position);
+            agent.SetDestination(telephones[0].transform.position);
+        }
+    }
+    public class DistanceComparer : IComparer<Transform>
+    {
+        private Transform target;
+
+        public DistanceComparer(Transform distanceToTarget)
+        {
+            target = distanceToTarget;
+        }
+
+        public int Compare(Transform a, Transform b)
+        {
+            var targetPosition = target.position;
+            return Vector3.Distance(a.position, targetPosition).CompareTo(Vector3.Distance(b.position, targetPosition));
         }
     }
 }

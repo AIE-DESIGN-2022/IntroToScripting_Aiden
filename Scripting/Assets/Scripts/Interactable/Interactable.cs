@@ -12,13 +12,13 @@ public class Interactable : MonoBehaviour
     public float maxProgess;
     public Slider progressBar;
     public bool interacting;
+    private bool check;
     // Start is called before the first frame update
     void Start()
     {
-        interactPrompt = GameObject.FindGameObjectWithTag("InteractPrompt").gameObject;
+        interactPrompt = transform.GetChild(2).gameObject;
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player").gameObject;
         currentProgress = 0;
-        progressBar.maxValue = maxProgess;
     }
 
     // Update is called once per frame
@@ -26,27 +26,41 @@ public class Interactable : MonoBehaviour
     {
         if (playerCollided == true)
         {
-            interactPrompt.SetActive(true);
-            if (Input.GetKey(KeyCode.E))
+            check = false;
+            progressBar.maxValue = maxProgess;
+            if (transform.parent.tag == "Enemy" && theSpookySkeleton.GetComponent<Skeleton>().disguised == true)
             {
-                theSpookySkeleton.GetComponent<Skeleton>().interacting = true;
-                interacting = true;
-                currentProgress += Time.deltaTime;
+                //interactPrompt.SetActive(false);
             }
             else
             {
-                theSpookySkeleton.GetComponent<Skeleton>().interacting = false;
-                interacting = false;
+                interactPrompt.SetActive(true);
+                if (Input.GetKey(KeyCode.E))
+                {
+                    theSpookySkeleton.GetComponent<Skeleton>().interacting = true;
+                    interacting = true;
+                    currentProgress += Time.deltaTime;
+                }
+                else
+                {
+                    theSpookySkeleton.GetComponent<Skeleton>().interacting = false;
+                    interacting = false;
+                }
             }
             UpdateProgressBar();
 
         }
         else if (playerCollided == false)
         {
-            //MAKE SKELETON STOP INTERACTING ONCE THIS IS DESTROYED
-            theSpookySkeleton.GetComponent <Skeleton>().interacting = false;
-            interactPrompt.SetActive(false);
-            UpdateProgressBar();
+            if (check == false)
+            {
+                theSpookySkeleton.GetComponent<Skeleton>().interacting = false;
+                interacting = false;
+                interactPrompt.SetActive(false);
+                UpdateProgressBar();
+                check = true;
+            }
+
         }
         if (interacting == false)
         {
@@ -59,8 +73,21 @@ public class Interactable : MonoBehaviour
         }
         if (currentProgress >= maxProgess)
         {
-            interactPrompt.SetActive(false);
-            Destroy(gameObject);
+            if (transform.parent.tag == "Enemy")
+            {
+                interactPrompt.SetActive(false);
+                interacting = false;
+                theSpookySkeleton.GetComponent<Skeleton>().interacting = false;
+                theSpookySkeleton.GetComponent<Skeleton>().disguised = true;
+                Destroy(transform.parent.gameObject);
+            }
+            else
+            {
+                interactPrompt.SetActive(false);
+                interacting = false;
+                theSpookySkeleton.GetComponent<Skeleton>().interacting = false;
+                Destroy(transform.parent.gameObject);
+            }
         }
         if (currentProgress > 0)
         {

@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - InteractPrompt
   - SkinPrompt
+  - Interactable
+  - Telephone
   layers:
   - Default
   - TransparentFX

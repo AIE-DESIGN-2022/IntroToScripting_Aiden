@@ -16,10 +16,12 @@ public class Enemy : MonoBehaviour
     public bool alerted;
     private GameObject theSpookySkeleton;
     public bool alive;
+    public GameObject disguiseInteract;
     // Start is called before the first frame update
     void Start()
     {
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player").gameObject;
+        disguiseInteract = gameObject.transform.GetChild(4).gameObject;
         cone = gameObject.transform.GetChild(2).gameObject;
         target = theSpookySkeleton.transform;
         currentSuspicion = 0;
@@ -57,6 +59,10 @@ public class Enemy : MonoBehaviour
             }
             if (currentSuspicion >= maxSuspicion)
             {
+                if (alerted == false)
+                {
+                    theSpookySkeleton.GetComponent<Skeleton>().disguised = false;
+                }
                 suspicionMeter.gameObject.SetActive(false);
                 exclamationMark.gameObject.SetActive(true);
                 alerted = true;
@@ -69,7 +75,7 @@ public class Enemy : MonoBehaviour
             cone.gameObject.SetActive(false);
             transform.Rotate(-90, 0, 0);
             transform.position = new Vector3(transform.position.x, 1.0F, transform.position.z);
-
+            disguiseInteract.SetActive(true);
         }
     }
     private void OnTriggerEnter(Collider other)

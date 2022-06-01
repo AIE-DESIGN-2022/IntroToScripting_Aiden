@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Container : MonoBehaviour
+public class CameraSwitch : MonoBehaviour
 {
     public GameObject disabledObject;
     public GameObject enabledObject;
@@ -19,6 +19,7 @@ public class Container : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
+        // Disables one object and enables another when the player enters this triggerbox, used to switch cameras between rooms
         if (other.gameObject.tag == "Player")
         {
             disabledObject.SetActive(false);

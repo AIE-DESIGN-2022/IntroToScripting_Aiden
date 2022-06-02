@@ -21,8 +21,17 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player").gameObject;
-        disguiseInteract = gameObject.transform.GetChild(4).gameObject;
-        cone = gameObject.transform.GetChild(2).gameObject;
+        foreach (Transform child in this.transform)
+        {
+            if (child.tag == "Interactable")
+            {
+                disguiseInteract = child.gameObject;
+            }
+            if (child.tag == "Detection")
+            {
+                cone = child.gameObject;
+            }
+        }
         target = theSpookySkeleton.transform;
         currentSuspicion = 0;
         suspicionMeter.maxValue = maxSuspicion;
@@ -65,7 +74,7 @@ public class Enemy : MonoBehaviour
             {
                 if (alerted == false)
                 {
-                    theSpookySkeleton.GetComponent<SkeletonController>().disguised = false;
+                    theSpookySkeleton.GetComponent<SkeletonController>().DisableDisguise();
                 }
                 suspicionMeter.gameObject.SetActive(false);
                 exclamationMark.gameObject.SetActive(true);
@@ -88,7 +97,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "HurtBox")
         {
-            gameObject.GetComponent<healthManager>().TakeDamage(damage);
+            gameObject.GetComponent<HealthManager>().TakeDamage(damage);
         }
     }
     //Changes AI behavior based on if the player is in the AI's cone of vision.

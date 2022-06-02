@@ -84,7 +84,7 @@ public class Interactable : MonoBehaviour
                 interactPrompt.SetActive(false);
                 interacting = false;
                 theSpookySkeleton.GetComponent<SkeletonController>().interacting = false;
-                theSpookySkeleton.GetComponent<SkeletonController>().disguised = true;
+                theSpookySkeleton.GetComponent<SkeletonController>().EnableDisguise();
                 Destroy(transform.parent.gameObject);
             }
             //Destroys objecy when progress bar reaches max progress.

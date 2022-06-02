@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class SkeletonController : MonoBehaviour
 {
-    private Vector3 lastPos;
     private Transform obj;
     private GameObject skele;
     public float baseSpeed = 5;
@@ -22,7 +21,6 @@ public class SkeletonController : MonoBehaviour
     void Start()
     {
         obj = gameObject.transform;
-        lastPos = obj.position;
         skele = obj.transform.GetChild(0).gameObject;
         speed = baseSpeed;
         rotation = speed * 30;
@@ -51,11 +49,7 @@ public class SkeletonController : MonoBehaviour
 
 
         //Sprint
-        if (Input.GetAxis("Vertical") < 0)
-        {
-            
-        }
-        else if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetAxis("Vertical") > 0)
         {
             speed = baseSpeed * sprintMultiplier;
         }
@@ -65,49 +59,44 @@ public class SkeletonController : MonoBehaviour
         }
 
         // Animation
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (Time.time > lastFire + fireDelay)
-                {
-                    skele.GetComponent<Animator>().SetTrigger("Attack");
-                    lastFire = Time.time;
-                    //disguised = false;
-                }
-           }
-        else
-        if (obj.position != lastPos)
+        //Plays attack animation when player presses space.
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            lastPos = obj.position;
-        }
-        {
-
-            if (Input.GetAxis("Vertical") > 0)
+            if (Time.time > lastFire + fireDelay)
             {
-                skele.GetComponent<Animator>().SetBool("Walk", true);
-            }
-            else if (Input.GetAxis("Vertical") <= 0)
-            {
-                skele.GetComponent<Animator>().SetBool("Walk", false);
+                skele.GetComponent<Animator>().SetTrigger("Attack");
+                lastFire = Time.time;
             }
         }
+        //Plays walk animation if player is walking forward.
+        if (Input.GetAxis("Vertical") > 0)
         {
-            if (Input.GetAxis("Vertical") < 0)
-            {
-                skele.GetComponent<Animator>().SetBool("Back", true);
-            }
-            else if (Input.GetAxis("Vertical") >= 0)
-            {
-                skele.GetComponent<Animator>().SetBool("Back", false);
-            }
+            skele.GetComponent<Animator>().SetBool("Walk", true);
         }
-        if (disguised == true)
+        else if (Input.GetAxis("Vertical") <= 0)
         {
-            disguise.gameObject.SetActive(true);
+            skele.GetComponent<Animator>().SetBool("Walk", false);
         }
-        else if (disguised == false)
+        //Plays walking backwards animation when player is walking backwards.
+        if (Input.GetAxis("Vertical") < 0)
         {
-            disguise.gameObject.SetActive(false);
+            skele.GetComponent<Animator>().SetBool("Back", true);
         }
+        else if (Input.GetAxis("Vertical") >= 0)
+        {
+            skele.GetComponent<Animator>().SetBool("Back", false);
+        }
+    }
+    //Enables visable disguise when disguise is set to true.
+    public void EnableDisguise()
+    {
+        disguised = true;
+        disguise.gameObject.SetActive(true);
+    }
+    //Disables visable disguise when disguise is set to false.
+    public void DisableDisguise()
+    {
+        disguised = false;
+        disguise.gameObject.SetActive(false);
     }
 }

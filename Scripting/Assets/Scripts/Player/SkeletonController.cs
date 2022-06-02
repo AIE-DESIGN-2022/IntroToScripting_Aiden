@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class SkeletonController : MonoBehaviour
 {
@@ -28,7 +27,6 @@ public class SkeletonController : MonoBehaviour
 
     void Update()
     {
-
         //Movement
         float z = Input.GetAxis("Vertical");
         float x = Input.GetAxis("Horizontal");

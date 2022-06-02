@@ -15,11 +15,14 @@ public class Navigation : MonoBehaviour
     public GameObject theSpookySkeleton;
     public GameObject parentEnemy;
     public Transform[] telephones;
+    public GameObject parentTelephone;
     private DistanceComparer distanceComparer;
     // Start is called before the first frame update
     void Start()
     {
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player");
+        parentTelephone = GameObject.FindGameObjectWithTag("TelephoneParent");
+        telephones = parentTelephone.GetComponentsInChildren<Transform>();
         suspicousOfPlayer = false;
         currentDestination = -1;
         nextLocation = 0;
@@ -99,7 +102,7 @@ public class Navigation : MonoBehaviour
             agent.SetDestination(telephones[0].transform.position);
         }
     }
-    //Compares distance of telephones (not sure how it works exactly got it from google)
+    //Compares distance of telephones
     public class DistanceComparer : IComparer<Transform>
     {
         private Transform target;

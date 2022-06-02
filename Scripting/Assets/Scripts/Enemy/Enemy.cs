@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player").gameObject;
         foreach (Transform child in this.transform)
         {
-            if (child.tag == "Interactable")
+            if (child.tag == "EnemyInteractable")
             {
                 disguiseInteract = child.gameObject;
             }

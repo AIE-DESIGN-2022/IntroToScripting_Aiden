@@ -11,6 +11,8 @@ TagManager:
   - Interactable
   - Telephone
   - Detection
+  - EnemyInteractable
+  - TelephoneParent
   layers:
   - Default
   - TransparentFX

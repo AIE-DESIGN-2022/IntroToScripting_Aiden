@@ -13,7 +13,7 @@ public class HealthManager : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthSlider.maxValue = currentHealth;
-    UpdateHealthBar();
+        UpdateHealthBar();
 
     }
 
@@ -38,13 +38,13 @@ public class HealthManager : MonoBehaviour
     //Takes Damage when called from Enemy Script.
     public void TakeDamage(float damageToTake)
     {
-            currentHealth -= damageToTake;
+        currentHealth -= damageToTake;
         if (currentHealth <= 0)
         {
             healthSlider.gameObject.SetActive(false);
             gameObject.GetComponent<Enemy>().alive = false;
         }
-            UpdateHealthBar();
+        UpdateHealthBar();
     }
     //Updates visable healthbar.
         private void UpdateHealthBar()

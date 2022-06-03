@@ -8,6 +8,7 @@ public class Navigation : MonoBehaviour
 {
     public Transform[] patrolPoints;
     private NavMeshAgent agent;
+    private Enemy enemyScript;
     public int nextLocation;
     public int currentDestination;
     public float distanceReachedThreshold;
@@ -26,6 +27,7 @@ public class Navigation : MonoBehaviour
         suspicousOfPlayer = false;
         currentDestination = -1;
         nextLocation = 0;
+        enemyScript = GetComponent<Enemy>();
         agent = GetComponent<NavMeshAgent>();
         distanceComparer = new DistanceComparer(transform);
         SetAgentDestination();
@@ -35,10 +37,10 @@ public class Navigation : MonoBehaviour
     void Update()
     {
         //Checks if player is alive before setting navigation.
-        if (gameObject.GetComponent<Enemy>().alive == true)
+        if (enemyScript.alive == true)
         {
             //Makes enemy suspicious of player if the player is in their cone of vision and is currently interacting with something.
-            if (theSpookySkeleton.GetComponent<SkeletonController>().interacting == true && this.gameObject.GetComponent<Enemy>().playerInCone)
+            if (theSpookySkeleton.GetComponent<SkeletonController>().interacting == true && this.enemyScript.playerInCone)
             {
                 suspicousOfPlayer = true;
             }
@@ -47,13 +49,13 @@ public class Navigation : MonoBehaviour
                 suspicousOfPlayer = false;
             }
             //Stops all movement if the AI is suspicious of the player
-            if (suspicousOfPlayer == false || gameObject.GetComponent<Enemy>().alerted == true)
+            if (suspicousOfPlayer == false || enemyScript.alerted == true)
             {
-                gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+                agent.isStopped = false;
             }
-            if (suspicousOfPlayer == true && gameObject.GetComponent<Enemy>().alerted == false)
+            if (suspicousOfPlayer == true && enemyScript.alerted == false)
             {
-                gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                agent.isStopped = true;
             }
             //Sets destination to next point once the AI is within the distance to target threshold.
             float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
@@ -63,13 +65,13 @@ public class Navigation : MonoBehaviour
             }
         }
         //Stops all movement is AI is not alive.
-        else if (gameObject.GetComponent<Enemy>().alive == false)
+        else if (enemyScript.alive == false)
         {
-            gameObject.GetComponent<NavMeshAgent>().isStopped = true;
-            
+            agent.isStopped = true;
+
         }
         //Sets destination when AI becomes alerted. (Called from Enemy script)
-        if (gameObject.GetComponent<Enemy>().alerted == true)
+        if (enemyScript.alerted == true)
         {
             SetAgentDestination();
         }
@@ -80,7 +82,7 @@ public class Navigation : MonoBehaviour
     //Sets destination.
     void SetAgentDestination()
     {
-        if (gameObject.GetComponent<Enemy>().alerted == false)
+        if (enemyScript.alerted == false)
         {
             //Sets destination to next patrol point if not alerted.
             if (patrolPoints.Length > nextLocation)
@@ -97,7 +99,7 @@ public class Navigation : MonoBehaviour
             }
         }
         //Sets destination to nearest telephone if alerted.
-        else if (gameObject.GetComponent<Enemy>().alerted == true)
+        else if (enemyScript.alerted == true)
         {
             agent.SetDestination(telephones[0].transform.position);
         }
@@ -117,5 +119,16 @@ public class Navigation : MonoBehaviour
             var targetPosition = target.position;
             return Vector3.Distance(a.position, targetPosition).CompareTo(Vector3.Distance(b.position, targetPosition));
         }
+    }
+    public void FacePlayer()
+    {
+        Vector3 rot = Quaternion.LookRotation(theSpookySkeleton.transform.position - transform.position).eulerAngles;
+        rot.x = rot.z = 0;
+        transform.rotation = Quaternion.Euler(rot);
+        agent.angularSpeed = 0;
+    }
+    public void DontFacePlayer()
+    {
+        agent.angularSpeed = 120;
     }
 }

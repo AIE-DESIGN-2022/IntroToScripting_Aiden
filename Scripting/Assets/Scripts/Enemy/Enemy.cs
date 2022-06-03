@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     private GameObject theSpookySkeleton;
     public bool alive;
     public GameObject disguiseInteract;
+    public float lastPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -84,12 +85,7 @@ public class Enemy : MonoBehaviour
         //Stops movement and turns enemy to an interactable object once dead.
         else if (alive == false)
         {
-            exclamationMark.gameObject.SetActive(false);
-            suspicionMeter.gameObject.SetActive(false);
-            cone.gameObject.SetActive(false);
-            transform.Rotate(-90, 0, 0);
-            transform.position = new Vector3(transform.position.x, 1.0F, transform.position.z);
-            disguiseInteract.SetActive(true);
+            Kill();
         }
     }
     //Takes damage when colliding with players damaging hitbox. Calls HealthManager script.
@@ -110,9 +106,7 @@ public class Enemy : MonoBehaviour
                 //Faces player if they are wearing a disguise while in the AI's cone of vision.
                 if (theSpookySkeleton.GetComponent<SkeletonController>().disguised == true)
                 {
-                    Vector3 rot = Quaternion.LookRotation(target.position - transform.position).eulerAngles;
-                    rot.x = rot.z = 0;
-                    transform.rotation = Quaternion.Euler(rot);
+                    this.GetComponent<Navigation>().FacePlayer();
                     if (currentSuspicion < maxSuspicion)
                     {
                         currentSuspicion += Time.deltaTime;
@@ -136,10 +130,20 @@ public class Enemy : MonoBehaviour
     public void CollisionEnded(Detection childscript)
     {
         playerInCone = false;
+        GetComponent<Navigation>().DontFacePlayer();
     }
     //Updates visable suspicion meter.
     private void UpdateSuspicionMeter()
     {
         suspicionMeter.value = currentSuspicion;
+    }
+    private void Kill()
+    {
+        exclamationMark.gameObject.SetActive(false);
+        suspicionMeter.gameObject.SetActive(false);
+        cone.gameObject.SetActive(false);
+        transform.Rotate(-90, 0, 0);
+        transform.position = new Vector3(transform.position.x, transform.localPosition.y + 0.5F, transform.position.z);
+        disguiseInteract.SetActive(true);
     }
 }

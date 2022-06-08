@@ -88,14 +88,6 @@ public class Enemy : MonoBehaviour
             Kill();
         }
     }
-    //Takes damage when colliding with players damaging hitbox. Calls HealthManager script.
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "HurtBox")
-        {
-            gameObject.GetComponent<HealthManager>().TakeDamage(damage);
-        }
-    }
     //Changes AI behavior based on if the player is in the AI's cone of vision.
     public void CollisionDetected(Detection childscript)
     {

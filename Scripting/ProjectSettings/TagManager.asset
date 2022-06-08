@@ -15,6 +15,7 @@ TagManager:
   - TelephoneParent
   - Key
   - Lock
+  - Wall
   layers:
   - Default
   - TransparentFX

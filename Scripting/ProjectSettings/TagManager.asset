@@ -16,6 +16,10 @@ TagManager:
   - Key
   - Lock
   - Wall
+  - Tunnel
+  - Left
+  - Right
+  - T
   layers:
   - Default
   - TransparentFX

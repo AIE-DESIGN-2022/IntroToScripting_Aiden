@@ -12,10 +12,11 @@ public class Procedural : MonoBehaviour
     public bool checkTwo;
     public bool checkThree;
     public float rando;
+    public float tRando;
     public bool triggerOneCollided;
     public bool triggerTwoCollided;
     public bool triggerThreeCollided;
-    public float startTime;
+    private float startTime;
     // Start is called before the first frame update
     void Awake()
     {
@@ -31,21 +32,24 @@ public class Procedural : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > startTime + .05F)
+        if (Time.time > startTime + .25F)
         {
             if (checkOne == true && !triggerOneCollided)
             {
-                rando = Random.Range(0, 4);
+                DeclairRando();
+                DeclairTRando();
                 CreateNextMazeOne();
             }
             if (checkTwo == true && !triggerTwoCollided)
             {
-                rando = Random.Range(0, 4);
+                DeclairRando();
+                DeclairTRando();
                 CreateNextMazeTwo();
             }
             if (checkThree == true && !triggerThreeCollided)
             {
-                rando = Random.Range(0, 4);
+                DeclairRando();
+                DeclairTRando();
                 CreateNextMazeThree();
             }
         }
@@ -218,13 +222,36 @@ public class Procedural : MonoBehaviour
             }
             if (rando == 3)
             {
-                GameObject TOne = Instantiate(t, transform.position, Quaternion.identity);
-                TOne.transform.position = gameObject.transform.position;
-                TOne.transform.rotation = gameObject.transform.rotation;
-                TOne.transform.parent = gameObject.transform;
-                TOne.transform.Rotate(0, 180, 0);
-                TOne.transform.localPosition = new Vector3(-4, 0, -5);
-                checkOne = false;
+                if (tRando == 0)
+                {
+                    GameObject TOne = Instantiate(t, transform.position, Quaternion.identity);
+                    TOne.transform.position = gameObject.transform.position;
+                    TOne.transform.rotation = gameObject.transform.rotation;
+                    TOne.transform.parent = gameObject.transform;
+                    TOne.transform.Rotate(0, 180, 0);
+                    TOne.transform.localPosition = new Vector3(-4, 0, -5);
+                    checkOne = false;
+                }
+                if (tRando == 1)
+                {
+                    GameObject RightOne = Instantiate(right, transform.position, Quaternion.identity);
+                    RightOne.transform.position = gameObject.transform.position;
+                    RightOne.transform.rotation = gameObject.transform.rotation;
+                    RightOne.transform.parent = gameObject.transform;
+                    RightOne.transform.Rotate(0, -90, 0);
+                    RightOne.transform.localPosition = new Vector3(-8, 0, -4);
+                    checkOne = false;
+                }
+                if (tRando == 2)
+                {
+                    GameObject LeftOne = Instantiate(left, transform.position, Quaternion.identity);
+                    LeftOne.transform.position = gameObject.transform.position;
+                    LeftOne.transform.rotation = gameObject.transform.rotation;
+                    LeftOne.transform.parent = gameObject.transform;
+                    LeftOne.transform.Rotate(0, -180, 0);
+                    LeftOne.transform.localPosition = new Vector3(-4, 0, -5);
+                    checkOne = false;
+                }
             }
         }
     }
@@ -390,13 +417,36 @@ public class Procedural : MonoBehaviour
             }
             if (rando == 3)
             {
-                GameObject TTwo = Instantiate(t, transform.position, Quaternion.identity);
-                TTwo.transform.position = gameObject.transform.position;
-                TTwo.transform.rotation = gameObject.transform.rotation;
-                TTwo.transform.parent = gameObject.transform;
-                TTwo.transform.Rotate(0, -90, 0);
-                TTwo.transform.localPosition = new Vector3(-1, 0, 3);
-                checkTwo = false;
+                if (tRando == 0)
+                {
+                    GameObject TTwo = Instantiate(t, transform.position, Quaternion.identity);
+                    TTwo.transform.position = gameObject.transform.position;
+                    TTwo.transform.rotation = gameObject.transform.rotation;
+                    TTwo.transform.parent = gameObject.transform;
+                    TTwo.transform.Rotate(0, -90, 0);
+                    TTwo.transform.localPosition = new Vector3(-1, 0, 3);
+                    checkTwo = false;
+                }
+                if (tRando == 1)
+                {
+                    GameObject RightTwo = Instantiate(right, transform.position, Quaternion.identity);
+                    RightTwo.transform.position = gameObject.transform.position;
+                    RightTwo.transform.rotation = gameObject.transform.rotation;
+                    RightTwo.transform.parent = gameObject.transform;
+                    RightTwo.transform.Rotate(0, 0, 0);
+                    RightTwo.transform.localPosition = new Vector3(0, 0, 7);
+                    checkTwo = false;
+                }
+                if (tRando == 2)
+                {
+                    GameObject LeftTwo = Instantiate(left, transform.position, Quaternion.identity);
+                    LeftTwo.transform.position = gameObject.transform.position;
+                    LeftTwo.transform.rotation = gameObject.transform.rotation;
+                    LeftTwo.transform.parent = gameObject.transform;
+                    LeftTwo.transform.Rotate(0, 180, 0);
+                    LeftTwo.transform.localPosition = new Vector3(3, 0, 2);
+                    checkTwo = false;
+                }
             }
         }
     }
@@ -436,14 +486,45 @@ public class Procedural : MonoBehaviour
             }
             if (rando == 3)
             {
-                GameObject TThree = Instantiate(t, transform.position, Quaternion.identity);
-                TThree.transform.position = gameObject.transform.position;
-                TThree.transform.rotation = gameObject.transform.rotation;
-                TThree.transform.parent = gameObject.transform;
-                TThree.transform.Rotate(0, 90, 0);
-                TThree.transform.localPosition = new Vector3(4, 0, -8);
-                checkThree = false;
+                if (tRando == 0)
+                {
+                    GameObject TThree = Instantiate(t, transform.position, Quaternion.identity);
+                    TThree.transform.position = gameObject.transform.position;
+                    TThree.transform.rotation = gameObject.transform.rotation;
+                    TThree.transform.parent = gameObject.transform;
+                    TThree.transform.Rotate(0, 90, 0);
+                    TThree.transform.localPosition = new Vector3(4, 0, -8);
+                    checkThree = false;
+                }
+                if (tRando == 1)
+                {
+                    GameObject RightThree = Instantiate(right, transform.position, Quaternion.identity);
+                    RightThree.transform.position = gameObject.transform.position;
+                    RightThree.transform.rotation = gameObject.transform.rotation;
+                    RightThree.transform.parent = gameObject.transform;
+                    RightThree.transform.Rotate(0, 180, 0);
+                    RightThree.transform.localPosition = new Vector3(3, 0, -12);
+                    checkThree = false;
+                }
+                if (tRando == 2)
+                {
+                    GameObject LeftThree = Instantiate(left, transform.position, Quaternion.identity);
+                    LeftThree.transform.position = gameObject.transform.position;
+                    LeftThree.transform.rotation = gameObject.transform.rotation;
+                    LeftThree.transform.parent = gameObject.transform;
+                    LeftThree.transform.Rotate(0, 90, 0);
+                    LeftThree.transform.localPosition = new Vector3(4, 0, -8);
+                    checkThree = false;
+                }
             }
         }
+    }
+    public void DeclairRando()
+    {
+        rando = Random.Range(0, 4);
+    }
+    public void DeclairTRando()
+    {
+        tRando = Random.Range(0, 3);
     }
 }

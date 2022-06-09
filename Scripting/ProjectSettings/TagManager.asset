@@ -20,6 +20,8 @@ TagManager:
   - Left
   - Right
   - T
+  - Trigger
+  - Counter
   layers:
   - Default
   - TransparentFX

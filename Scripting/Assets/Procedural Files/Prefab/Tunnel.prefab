@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1671512384389024398}
   m_Layer: 0
   m_Name: Cube (3)
-  m_TagString: Wall
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 2283974961888896864}
   m_Layer: 0
   m_Name: Cube (4)
-  m_TagString: Wall
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1030,7 +1030,7 @@ GameObject:
   - component: {fileID: 1853034330315372297}
   m_Layer: 0
   m_Name: Cube (5)
-  m_TagString: Wall
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2024,4 +2024,3 @@ MonoBehaviour:
   triggerOneCollided: 0
   triggerTwoCollided: 0
   triggerThreeCollided: 0
-  startTime: 0

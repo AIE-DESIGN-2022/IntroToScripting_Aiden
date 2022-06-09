@@ -10,10 +10,12 @@ public class Detector : MonoBehaviour
     public float randoX;
     public float randoY;
     public float randoZ;
+    public GameObject counter;
     // Start is called before the first frame update
     void Awake()
     {
         check = true;
+        counter = GameObject.FindGameObjectWithTag("Counter");
     }
 
     // Update is called once per frame
@@ -27,6 +29,7 @@ public class Detector : MonoBehaviour
             GameObject created = Instantiate(cube, new Vector3(transform.position.x + randoX, transform.position.y + randoY, transform.position.z + randoZ), Quaternion.identity);
             created.GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
             check = false;
+            counter.GetComponent<Counter>().count++;
 
         }
 

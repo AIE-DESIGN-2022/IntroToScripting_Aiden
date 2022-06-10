@@ -16,20 +16,14 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        Vector3 offset = obj.position - lastPos;
-        if (offset.x > threshold)
+        if (obj.position != lastPos)
         {
-            lastPos = obj.position; // update lastPos
-                                    // code to execute when X is getting bigger
-            obj.GetComponent<Animator>().SetTrigger("Walk");
-
+            GetComponent<Animator>().SetBool("Walk", true);
+            lastPos = obj.position;
         }
-        else
-        if (offset.x < -threshold)
+        else if (obj.position == lastPos)
         {
-            lastPos = obj.position; // update lastPos
-                                    // code to execute when X is getting smaller 
-            obj.GetComponent<Animator>().SetTrigger("Walk");
+            GetComponent<Animator>().SetBool("Walk", false);
         }
     }
     private void OnCollisionEnter(Collision collision)

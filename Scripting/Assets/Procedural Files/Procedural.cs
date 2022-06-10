@@ -38,7 +38,7 @@ public class Procedural : MonoBehaviour
     {
         if (generating == true && Time.time > 1)
         {
-            if (Time.time > startTime + .25F)
+            if (Time.time > startTime + .05F)
             {
                 if (checkOne == true && !triggerOneCollided)
                 {

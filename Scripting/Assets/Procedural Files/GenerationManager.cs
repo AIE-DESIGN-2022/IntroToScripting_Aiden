@@ -33,12 +33,12 @@ public class GenerationManager : MonoBehaviour
           {
               Destroy(triggers[i].gameObject);
           }
-        player.transform.position = new Vector3(45, 38, 20);
         pleaseWait.SetActive(false);
         for (int i = 0; i < surfaces.Length; i++)
         {
             surfaces[i].BuildNavMesh();
         }
+        player.transform.position = new Vector3(45, 38, 18);
         check = true;
     }
 }

@@ -18,6 +18,8 @@ public class LookPlayer1 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        transform.LookAt(target);
+        Vector3 rot = Quaternion.LookRotation(target.position - transform.position).eulerAngles;
+        rot.x = rot.z = 0;
+        transform.rotation = Quaternion.Euler(rot);
     }
 }

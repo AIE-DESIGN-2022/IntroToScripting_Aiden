@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public float count;
+    public GameObject[] mazePieces;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +14,6 @@ public class Counter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //mazePieces = GameObject.FindGameObjectsWithTag(new string[] {"Right", "Left", "Tunnel", "T"});
     }
 }

@@ -17,6 +17,8 @@ public class Procedural : MonoBehaviour
     public bool triggerTwoCollided;
     public bool triggerThreeCollided;
     private float startTime;
+    public GameObject manager;
+    private bool generating;
     // Start is called before the first frame update
     void Awake()
     {
@@ -27,35 +29,43 @@ public class Procedural : MonoBehaviour
         triggerOneCollided = false;
         triggerTwoCollided = false;
         triggerThreeCollided = false;
+        manager = GameObject.FindGameObjectWithTag("Manager");
+        generating = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > startTime + .25F)
+        if (generating == true && Time.time > 1)
         {
-            if (checkOne == true && !triggerOneCollided)
+            if (Time.time > startTime + .25F)
             {
-                DeclairRando();
-                DeclairTRando();
-                CreateNextMazeOne();
-            }
-            if (checkTwo == true && !triggerTwoCollided)
-            {
-                DeclairRando();
-                DeclairTRando();
-                CreateNextMazeTwo();
-            }
-            if (checkThree == true && !triggerThreeCollided)
-            {
-                DeclairRando();
-                DeclairTRando();
-                CreateNextMazeThree();
+                if (checkOne == true && !triggerOneCollided)
+                {
+                    manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
+                    DeclairRando();
+                    DeclairTRando();
+                    CreateNextMazeOne();
+                }
+                if (checkTwo == true && !triggerTwoCollided)
+                {
+                    manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
+                    DeclairRando();
+                    DeclairTRando();
+                    CreateNextMazeTwo();
+                }
+                if (checkThree == true && !triggerThreeCollided)
+                {
+                    manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
+                    DeclairRando();
+                    DeclairTRando();
+                    CreateNextMazeThree();
+                }
             }
         }
         if (triggerOneCollided && triggerTwoCollided && triggerThreeCollided)
         {
-            Destroy(GetComponent<Procedural>());
+            generating = false;
         }
     }
     public void CreateNextMazeOne()
@@ -527,4 +537,5 @@ public class Procedural : MonoBehaviour
     {
         tRando = Random.Range(0, 3);
     }
+
 }

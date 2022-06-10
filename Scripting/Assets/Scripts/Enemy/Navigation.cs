@@ -19,7 +19,7 @@ public class Navigation : MonoBehaviour
     public GameObject parentTelephone;
     private DistanceComparer distanceComparer;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player");
         parentTelephone = GameObject.FindGameObjectWithTag("TelephoneParent");

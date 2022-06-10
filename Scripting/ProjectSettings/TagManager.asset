@@ -22,6 +22,8 @@ TagManager:
   - T
   - Trigger
   - Counter
+  - Manager
+  - Wait
   layers:
   - Default
   - TransparentFX

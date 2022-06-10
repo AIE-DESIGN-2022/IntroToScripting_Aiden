@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 970989618}
   - component: {fileID: 1671512384389024398}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 2071588818}
   - component: {fileID: 2283974961888896864}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -711,13 +711,13 @@ GameObject:
   - component: {fileID: 4978870883026072814}
   - component: {fileID: 8238308092650563519}
   - component: {fileID: 6139990252018582614}
-  - component: {fileID: 4009735310314875921}
+  - component: {fileID: 8425370600436516626}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &987502559591998417
 Transform:
@@ -998,8 +998,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781813207661498828}
   m_Mesh: {fileID: 0}
---- !u!64 &4009735310314875921
-MeshCollider:
+--- !u!65 &8425370600436516626
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1008,10 +1008,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Size: {x: 7, y: 1.0000001, z: 5}
+  m_Center: {x: 1.4999999, y: 0.50000006, z: -2.5}
 --- !u!1 &4513102045638925987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,7 +1028,7 @@ GameObject:
   - component: {fileID: 1334272682775573153}
   - component: {fileID: 1853034330315372297}
   m_Layer: 0
-  m_Name: Cube (5)
+  m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1381,13 +1380,13 @@ GameObject:
   - component: {fileID: 8164040545732182335}
   - component: {fileID: 7392518847031738990}
   - component: {fileID: 8257131530058225460}
-  - component: {fileID: 4180626730105066112}
+  - component: {fileID: 971315163628618842}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4834093478830260799
 Transform:
@@ -1668,8 +1667,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6224511448021158336}
   m_Mesh: {fileID: 0}
---- !u!64 &4180626730105066112
-MeshCollider:
+--- !u!65 &971315163628618842
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1678,10 +1677,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 2
+  m_Size: {x: 7, y: 1.0000001, z: 5}
+  m_Center: {x: 1.4999999, y: 0.50000006, z: -2.5}
 --- !u!1 &7480871219984260702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,14 +1692,14 @@ GameObject:
   - component: {fileID: 4814216799691003525}
   - component: {fileID: 7020165543025975290}
   - component: {fileID: 5671267429758757891}
-  - component: {fileID: 392183934760182190}
   - component: {fileID: 29691398}
+  - component: {fileID: 4877696072338831229}
   m_Layer: 0
   m_Name: Tunnel
   m_TagString: Tunnel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &3670241183773750599
 Transform:
@@ -1987,20 +1985,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7480871219984260702}
   m_Mesh: {fileID: 0}
---- !u!64 &392183934760182190
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7480871219984260702}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!114 &29691398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2021,6 +2005,21 @@ MonoBehaviour:
   checkTwo: 0
   checkThree: 0
   rando: 0
+  tRando: 0
   triggerOneCollided: 0
   triggerTwoCollided: 0
   triggerThreeCollided: 0
+  manager: {fileID: 0}
+--- !u!65 &4877696072338831229
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7480871219984260702}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7, y: 1, z: 7}
+  m_Center: {x: 1.4999999, y: 0.5, z: -2.5}

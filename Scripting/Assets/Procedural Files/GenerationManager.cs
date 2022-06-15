@@ -12,6 +12,8 @@ public class GenerationManager : MonoBehaviour
     private bool check;
     public GameObject pleaseWait;
     public NavMeshSurface[] surfaces;
+    public List<Vector3> colliderLocations;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,5 +47,19 @@ public class GenerationManager : MonoBehaviour
         {
             surfaces[i].BuildNavMesh();
         }
+    }
+    public bool AddToList(Vector3 positionOfObject)
+    {
+        foreach(Vector3 pos in colliderLocations)
+        {
+            if(positionOfObject == pos)
+            {
+                return true;
+            }
+            
+        }
+        colliderLocations.Add(positionOfObject);
+        return false;
+
     }
 }

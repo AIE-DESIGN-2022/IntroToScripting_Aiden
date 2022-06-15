@@ -27,13 +27,7 @@ public class Counter : MonoBehaviour
     }
     public void CheckForOverlaps()
     {
-        /*foreach (var piece in tunnelPieces)
-        {
-            if (piece.transform.position)
-            {
-                Debug.log("yep");
-            }
-        }*/
+
     }
 
 }

@@ -24,11 +24,12 @@ TagManager:
   - Counter
   - Manager
   - Wait
+  - U
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Triggers
   - Water
   - UI
   - 

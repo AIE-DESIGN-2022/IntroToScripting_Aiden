@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1989441405130694771}
   - component: {fileID: 970989618}
   - component: {fileID: 1671512384389024398}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 151960902833851621}
   - component: {fileID: 2071588818}
   - component: {fileID: 2283974961888896864}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -1027,7 +1027,7 @@ GameObject:
   - component: {fileID: 5046094328236993624}
   - component: {fileID: 1334272682775573153}
   - component: {fileID: 1853034330315372297}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -2001,15 +2001,18 @@ MonoBehaviour:
   left: {fileID: 8319897013265866187, guid: 8acd16b2438383a47a83ec0ca4234d36, type: 3}
   right: {fileID: 8082262395301101854, guid: 82567fd2d9d213e45be869fb5b812d9c, type: 3}
   t: {fileID: 8319897013265866187, guid: a6e7a9e7aadb6a0408ac3709d88bc32a, type: 3}
+  u: {fileID: 7480871219984260702, guid: c6fac27ab1ab19c45a1b1832486ad596, type: 3}
   checkOne: 0
   checkTwo: 0
   checkThree: 0
   rando: 0
-  tRando: 0
   triggerOneCollided: 0
   triggerTwoCollided: 0
   triggerThreeCollided: 0
   manager: {fileID: 0}
+  counter: {fileID: 0}
+  pieceCount: 0
+  maxCount: 0
 --- !u!65 &4877696072338831229
 BoxCollider:
   m_ObjectHideFlags: 0

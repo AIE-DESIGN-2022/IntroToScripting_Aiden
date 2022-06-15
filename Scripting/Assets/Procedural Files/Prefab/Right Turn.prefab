@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1414691603}
   - component: {fileID: 1414691602}
   - component: {fileID: 1414691601}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -372,7 +372,7 @@ GameObject:
   - component: {fileID: 2040762039}
   - component: {fileID: 2040762038}
   - component: {fileID: 1637449918449789686}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -1651,7 +1651,7 @@ GameObject:
   - component: {fileID: 372343546069399756}
   - component: {fileID: 1885981358232436873}
   - component: {fileID: 2816673067592398059}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trigger
   m_TagString: Trigger
   m_Icon: {fileID: 0}
@@ -2314,15 +2314,18 @@ MonoBehaviour:
   left: {fileID: 8319897013265866187, guid: 8acd16b2438383a47a83ec0ca4234d36, type: 3}
   right: {fileID: 8082262395301101854}
   t: {fileID: 8319897013265866187, guid: a6e7a9e7aadb6a0408ac3709d88bc32a, type: 3}
+  u: {fileID: 7480871219984260702, guid: c6fac27ab1ab19c45a1b1832486ad596, type: 3}
   checkOne: 0
   checkTwo: 0
   checkThree: 0
   rando: 0
-  tRando: 0
   triggerOneCollided: 0
   triggerTwoCollided: 0
   triggerThreeCollided: 0
   manager: {fileID: 0}
+  counter: {fileID: 0}
+  pieceCount: 0
+  maxCount: 0
 --- !u!65 &1639325717302391993
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -4,16 +4,36 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    public GameObject[] mazePieces;
+    public GameObject[] rightPieces;
+    public GameObject[] leftPieces;
+    public GameObject[] tunnelPieces;
+    public GameObject[] tPieces;
+    public float count;
+    public float maxPieces;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //mazePieces = GameObject.FindGameObjectsWithTag(new string[] {"Right", "Left", "Tunnel", "T"});
+        rightPieces = GameObject.FindGameObjectsWithTag("Right");
+        leftPieces = GameObject.FindGameObjectsWithTag("Left");
+        tunnelPieces = GameObject.FindGameObjectsWithTag("Tunnel");
+        tPieces = GameObject.FindGameObjectsWithTag("T");
+        count = rightPieces.Length + leftPieces.Length + tunnelPieces.Length + tPieces.Length;
     }
+    public void CheckForOverlaps()
+    {
+        /*foreach (var piece in tunnelPieces)
+        {
+            if (piece.transform.position)
+            {
+                Debug.log("yep");
+            }
+        }*/
+    }
+
 }

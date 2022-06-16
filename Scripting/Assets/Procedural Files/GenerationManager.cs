@@ -13,12 +13,15 @@ public class GenerationManager : MonoBehaviour
     public GameObject pleaseWait;
     public NavMeshSurface[] surfaces;
     public List<Vector3> colliderLocations;
+    public Counter counter;
+    public List<GameObject> pieces;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pleaseWait = GameObject.FindGameObjectWithTag("Wait");
+        counter = FindObjectOfType<Counter>();
     }
 
     // Update is called once per frame
@@ -26,8 +29,8 @@ public class GenerationManager : MonoBehaviour
     {
         if (Time.timeSinceLevelLoad > generationTime + 2 && check == false)
         {
-            DeleteAllTriggers();
-            BakeNav();
+                DeleteAllTriggers();
+                BakeNav();
         }
     }
     public void DeleteAllTriggers()
@@ -41,6 +44,23 @@ public class GenerationManager : MonoBehaviour
         pleaseWait.SetActive(false);
         check = true;
     }
+    public void DisableAllTriggers()
+    {
+        GameObject[] triggers = GameObject.FindGameObjectsWithTag("Trigger");
+        for (int i = 0; i < triggers.Length; i++)
+        {
+            triggers[i].gameObject.SetActive(false);
+        }
+    }
+    public void EnableAllTriggers()
+    {
+        GameObject[] triggers = GameObject.FindGameObjectsWithTag("Trigger");
+        for (int i = 0; i < triggers.Length; i++)
+        {
+            triggers[i].gameObject.SetActive(true);
+        }
+    }
+
     public void BakeNav()
     {
         for (int i = 0; i < surfaces.Length; i++)
@@ -48,7 +68,12 @@ public class GenerationManager : MonoBehaviour
             surfaces[i].BuildNavMesh();
         }
     }
-    public bool AddToList(Vector3 positionOfObject)
+    public void AddToList()
+    {
+        
+    }
+
+    /*public bool AddToList(Vector3 positionOfObject)
     {
         foreach(Vector3 pos in colliderLocations)
         {
@@ -61,5 +86,5 @@ public class GenerationManager : MonoBehaviour
         colliderLocations.Add(positionOfObject);
         return false;
 
-    }
+    }*/
 }

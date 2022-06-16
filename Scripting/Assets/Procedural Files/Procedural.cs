@@ -19,11 +19,13 @@ public class Procedural : MonoBehaviour
     private float startTime;
     public GameObject manager;
     private bool generating;
-    public float randoTime;
     public GameObject counter;
     public float pieceCount;
     public float maxCount;
     Transform spawnParent;
+
+    public List<Vector3> pieceLocations;
+    public List<GameObject> locationDict;
 
     // Start is called before the first frame update
     void Awake()
@@ -38,14 +40,7 @@ public class Procedural : MonoBehaviour
         manager = GameObject.FindGameObjectWithTag("Manager");
         counter = GameObject.FindGameObjectWithTag("Counter");
         generating = true;
-        randoTime = Random.Range(0.03F, 0.06F);
         maxCount = counter.GetComponent<Counter>().maxPieces;
-        Collider col = GetComponent<Collider>();
-        if (manager.GetComponent<GenerationManager>().AddToList(col.bounds.center))
-        {
-            Debug.Log(col.gameObject.name);
-            //gameObject.SetActive(false);
-        }
     }
 
     // Update is called once per frame
@@ -54,7 +49,7 @@ public class Procedural : MonoBehaviour
         pieceCount = counter.GetComponent<Counter>().count;
         if (generating == true && Time.timeSinceLevelLoad > 1)
         {
-            if (Time.time > startTime + randoTime)
+            if (Time.time > startTime + 0.05F)
             {
                 if (checkOne == true && !triggerOneCollided)
                 {
@@ -69,7 +64,7 @@ public class Procedural : MonoBehaviour
                         CreateEndMazeOne();
                     }
                 }
-                if (Time.time > startTime + randoTime -0.02F)
+                if (Time.time > startTime + 0.05F)
                 {
                     if (checkTwo == true && !triggerTwoCollided)
                     {
@@ -85,7 +80,7 @@ public class Procedural : MonoBehaviour
                         }
                     }
                 }
-                if (Time.time > startTime + randoTime + 0.0F)
+                if (Time.time > startTime + 0.5F)
                 {
                     if (checkThree == true && !triggerThreeCollided)
                     {
@@ -120,6 +115,7 @@ public class Procedural : MonoBehaviour
                 TunOne.transform.parent = gameObject.transform;
                 TunOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunOne);
                 checkOne = false;
             }
             if (rando == 1)
@@ -131,6 +127,7 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.Rotate(0, -90, 0);
                 RightOne.transform.localPosition = new Vector3(-7, 0, 0);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightOne);
                 checkOne = false;
             }
             if (rando == 2)
@@ -142,6 +139,7 @@ public class Procedural : MonoBehaviour
                 LeftOne.transform.Rotate(0, -180, 0);
                 LeftOne.transform.localPosition = new Vector3(-7, 0, 0);
                 LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftOne);
                 checkOne = false;
             }
             if (rando == 3)
@@ -153,6 +151,7 @@ public class Procedural : MonoBehaviour
                 TOne.transform.Rotate(0, -180, 0);
                 TOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TOne);
                 checkOne = false;
             }
         }
@@ -165,8 +164,9 @@ public class Procedural : MonoBehaviour
                 TunOne.transform.rotation = gameObject.transform.rotation;
                 TunOne.transform.parent = gameObject.transform;
                 TunOne.transform.Rotate(0, 90, 0);
-                TunOne.transform.localPosition = new Vector3(4, 0, -8);
+                TunOne.transform.localPosition = new Vector3(0, 0, -7);
                 TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunOne);
                 checkOne = false;
             }
             if (rando == 1)
@@ -175,9 +175,10 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.position = gameObject.transform.position;
                 RightOne.transform.rotation = gameObject.transform.rotation;
                 RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, 180, 0);
-                RightOne.transform.localPosition = new Vector3(3, 0, -12);
+                RightOne.transform.Rotate(0, -180, 0);
+                RightOne.transform.localPosition = new Vector3(0, 0, -7);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightOne);
                 checkOne = false;
             }
             if (rando == 2)
@@ -187,8 +188,9 @@ public class Procedural : MonoBehaviour
                 LeftOne.transform.rotation = gameObject.transform.rotation;
                 LeftOne.transform.parent = gameObject.transform;
                 LeftOne.transform.Rotate(0, 90, 0);
-                LeftOne.transform.localPosition = new Vector3(4, 0, -8);
+                LeftOne.transform.localPosition = new Vector3(0, 0, -7);
                 LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftOne);
                 checkOne = false;
             }
             if (rando == 3)
@@ -198,8 +200,9 @@ public class Procedural : MonoBehaviour
                 TOne.transform.rotation = gameObject.transform.rotation;
                 TOne.transform.parent = gameObject.transform;
                 TOne.transform.Rotate(0, 90, 0);
-                TOne.transform.localPosition = new Vector3(4, 0, -8);
+                TOne.transform.localPosition = new Vector3(0, 0, -7);
                 TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TOne);
                 checkOne = false;
             }
         }
@@ -214,6 +217,7 @@ public class Procedural : MonoBehaviour
                 TunOne.transform.Rotate(0, 90, 0);
                 TunOne.transform.localPosition = new Vector3(0, 0, 7);
                 TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunOne);
                 checkOne = false;
             }
             if (rando == 1)
@@ -225,6 +229,7 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.Rotate(0, 0, 0);
                 RightOne.transform.localPosition = new Vector3(0, 0, 7);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightOne);
                 checkOne = false;
             }
             if (rando == 2)
@@ -236,6 +241,7 @@ public class Procedural : MonoBehaviour
                 LeftOne.transform.Rotate(0, 270, 0);
                 LeftOne.transform.localPosition = new Vector3(0, 0, 7);
                 LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftOne);
                 checkOne = false;
             }
             if (rando == 3)
@@ -247,6 +253,7 @@ public class Procedural : MonoBehaviour
                 TOne.transform.Rotate(0, 270, 0);
                 TOne.transform.localPosition = new Vector3(0, 0, 7);
                 TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TOne);
                 checkOne = false;
             }
         }
@@ -261,6 +268,7 @@ public class Procedural : MonoBehaviour
                 TunOne.transform.Rotate(0, 0, 0);
                 TunOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunOne);
                 checkOne = false;
             }
             if (rando == 1)
@@ -270,8 +278,9 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.rotation = gameObject.transform.rotation;
                 RightOne.transform.parent = gameObject.transform;
                 RightOne.transform.Rotate(0, -90, 0);
-                RightOne.transform.localPosition = new Vector3(-8, 0, -4);
+                RightOne.transform.localPosition = new Vector3(-7, 0, 0);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightOne);
                 checkOne = false;
             }
             if (rando == 2)
@@ -280,9 +289,10 @@ public class Procedural : MonoBehaviour
                 LeftOne.transform.position = gameObject.transform.position;
                 LeftOne.transform.rotation = gameObject.transform.rotation;
                 LeftOne.transform.parent = gameObject.transform;
-                LeftOne.transform.Rotate(0, -180, 0);
-                LeftOne.transform.localPosition = new Vector3(-4, 0, -5);
+                LeftOne.transform.Rotate(0, 180, 0);
+                LeftOne.transform.localPosition = new Vector3(-7, 0, 0);
                 LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftOne);
                 checkOne = false;
             }
             if (rando == 3)
@@ -292,8 +302,9 @@ public class Procedural : MonoBehaviour
                 TOne.transform.rotation = gameObject.transform.rotation;
                 TOne.transform.parent = gameObject.transform;
                 TOne.transform.Rotate(0, 180, 0);
-                TOne.transform.localPosition = new Vector3(-4, 0, -5);
+                TOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TOne);
                 checkOne = false;
             }
         }
@@ -310,6 +321,7 @@ public class Procedural : MonoBehaviour
                 TunTwo.transform.parent = gameObject.transform;
                 TunTwo.transform.localPosition = new Vector3(7, 0, 0);
                 TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunTwo);
                 checkTwo = false;
             }
             if (rando == 1)
@@ -321,6 +333,7 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.Rotate(0, 90, 0);
                 RightTwo.transform.localPosition = new Vector3(7, 0, 0);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightTwo);
                 checkTwo = false;
             }
             if (rando == 2)
@@ -332,6 +345,7 @@ public class Procedural : MonoBehaviour
                 LeftTwo.transform.Rotate(0, 0, 0);
                 LeftTwo.transform.localPosition = new Vector3(7, 0, 0);
                 LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftTwo);
                 checkTwo = false;
             }
             if (rando == 3)
@@ -343,6 +357,7 @@ public class Procedural : MonoBehaviour
                 TTwo.transform.Rotate(0, 0, 0);
                 TTwo.transform.localPosition = new Vector3(7, 0, 0);
                 TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TTwo);
                 checkTwo = false;
             }
         }
@@ -356,6 +371,7 @@ public class Procedural : MonoBehaviour
                 TunTwo.transform.parent = gameObject.transform;
                 TunTwo.transform.localPosition = new Vector3(7, 0, 0);
                 TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunTwo);
                 checkTwo = false;
             }
             if (rando == 1)
@@ -365,8 +381,9 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.rotation = gameObject.transform.rotation;
                 RightTwo.transform.parent = gameObject.transform;
                 RightTwo.transform.Rotate(0, 90, 0);
-                RightTwo.transform.localPosition = new Vector3(11, 0, -1);
+                RightTwo.transform.localPosition = new Vector3(7, 0, 0);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightTwo);
                 checkTwo = false;
             }
             if (rando == 2)
@@ -378,6 +395,7 @@ public class Procedural : MonoBehaviour
                 LeftTwo.transform.Rotate(0, 0, 0);
                 LeftTwo.transform.localPosition = new Vector3(7, 0, 0);
                 LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftTwo);
                 checkTwo = false;
             }
             if (rando == 3)
@@ -389,6 +407,7 @@ public class Procedural : MonoBehaviour
                 TTwo.transform.Rotate(0, 0, 0);
                 TTwo.transform.localPosition = new Vector3(7, 0, 0);
                 TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TTwo);
                 checkTwo = false;
             }
         }
@@ -402,6 +421,7 @@ public class Procedural : MonoBehaviour
                 TunTwo.transform.parent = gameObject.transform;
                 TunTwo.transform.localPosition = new Vector3(-7, 0, 0);
                 TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunTwo);
                 checkTwo = false;
             }
             if (rando == 1)
@@ -413,6 +433,7 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.Rotate(0, 0, 0);
                 RightTwo.transform.localPosition = new Vector3(-7, 0, 0);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightTwo);
                 checkTwo = false;
             }
             if (rando == 2)
@@ -424,6 +445,7 @@ public class Procedural : MonoBehaviour
                 LeftTwo.transform.Rotate(0, 180, 0);
                 LeftTwo.transform.localPosition = new Vector3(-7, 0, 0);
                 LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftTwo);
                 checkTwo = false;
             }
             if (rando == 3)
@@ -435,6 +457,7 @@ public class Procedural : MonoBehaviour
                 TTwo.transform.Rotate(0, 180, 0);
                 TTwo.transform.localPosition = new Vector3(-7, 0, 0);
                 TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TTwo);
                 checkTwo = false;
             }
         }
@@ -447,8 +470,9 @@ public class Procedural : MonoBehaviour
                 TunTwo.transform.rotation = gameObject.transform.rotation;
                 TunTwo.transform.parent = gameObject.transform;
                 TunTwo.transform.Rotate(0, 90, 0);
-                TunTwo.transform.localPosition = new Vector3(4, 0, 6);
+                TunTwo.transform.localPosition = new Vector3(0, 0, 7);
                 TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunTwo);
                 checkTwo = false;
             }
             if (rando == 1)
@@ -460,6 +484,7 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.Rotate(0, 0, 0);
                 RightTwo.transform.localPosition = new Vector3(0, 0, 7);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightTwo);
                 checkTwo = false;
             }
             if (rando == 2)
@@ -468,9 +493,10 @@ public class Procedural : MonoBehaviour
                 LeftTwo.transform.position = gameObject.transform.position;
                 LeftTwo.transform.rotation = gameObject.transform.rotation;
                 LeftTwo.transform.parent = gameObject.transform;
-                LeftTwo.transform.Rotate(0, 180, 0);
-                LeftTwo.transform.localPosition = new Vector3(3, 0, 2);
+                LeftTwo.transform.Rotate(0, -90, 0);
+                LeftTwo.transform.localPosition = new Vector3(0, 0, 7);
                 LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftTwo);
                 checkTwo = false;
             }
             if (rando == 3)
@@ -480,8 +506,9 @@ public class Procedural : MonoBehaviour
                 TTwo.transform.rotation = gameObject.transform.rotation;
                 TTwo.transform.parent = gameObject.transform;
                 TTwo.transform.Rotate(0, -90, 0);
-                TTwo.transform.localPosition = new Vector3(-1, 0, 3);
+                TTwo.transform.localPosition = new Vector3(0, 0, 7);
                 TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TTwo);
                 checkTwo = false;
             }
         }
@@ -496,9 +523,10 @@ public class Procedural : MonoBehaviour
                 TunThree.transform.position = gameObject.transform.position;
                 TunThree.transform.rotation = gameObject.transform.rotation;
                 TunThree.transform.parent = gameObject.transform;
-                TunThree.transform.Rotate(0, -90, 0);
-                TunThree.transform.localPosition = new Vector3(-1, 0, -11);
+                TunThree.transform.Rotate(0, 90, 0);
+                TunThree.transform.localPosition = new Vector3(0, 0, -7);
                 TunThree.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TunThree);
                 checkThree = false;
             }
             if (rando == 1)
@@ -508,8 +536,9 @@ public class Procedural : MonoBehaviour
                 RightThree.transform.rotation = gameObject.transform.rotation;
                 RightThree.transform.parent = gameObject.transform;
                 RightThree.transform.Rotate(0, 180, 0);
-                RightThree.transform.localPosition = new Vector3(3, 0, -12);
+                RightThree.transform.localPosition = new Vector3(0, 0, -7);
                 RightThree.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(RightThree);
                 checkThree = false;
             }
             if (rando == 2)
@@ -519,8 +548,9 @@ public class Procedural : MonoBehaviour
                 LeftThree.transform.rotation = gameObject.transform.rotation;
                 LeftThree.transform.parent = gameObject.transform;
                 LeftThree.transform.Rotate(0, 90, 0);
-                LeftThree.transform.localPosition = new Vector3(4, 0, -8);
+                LeftThree.transform.localPosition = new Vector3(0, 0, -7);
                 LeftThree.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(LeftThree);
                 checkThree = false;
             }
             if (rando == 3)
@@ -530,8 +560,9 @@ public class Procedural : MonoBehaviour
                 TThree.transform.rotation = gameObject.transform.rotation;
                 TThree.transform.parent = gameObject.transform;
                 TThree.transform.Rotate(0, 90, 0);
-                TThree.transform.localPosition = new Vector3(4, 0, -8);
+                TThree.transform.localPosition = new Vector3(0, 0, -7);
                 TThree.transform.parent = GameObject.Find("SPawnPArent").transform;
+                AddToLists(TThree);
                 checkThree = false;
             }
         }
@@ -547,6 +578,7 @@ public class Procedural : MonoBehaviour
             UOne.transform.localPosition = new Vector3(-7, 0, 0);
             UOne.transform.Rotate(0, -180, 0);
             UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UOne);
             checkOne = false;
         }
         if (gameObject.tag == "Right")
@@ -555,9 +587,10 @@ public class Procedural : MonoBehaviour
             UOne.transform.position = gameObject.transform.position;
             UOne.transform.rotation = gameObject.transform.rotation;
             UOne.transform.parent = gameObject.transform;
-            UOne.transform.Rotate(0, -90, 0);
-            UOne.transform.localPosition = new Vector3(-7, 0, 0);
+            UOne.transform.Rotate(0, 90, 0);
+            UOne.transform.localPosition = new Vector3(0, 0, -7);
             UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UOne);
             checkOne = false;
         }
         if (gameObject.tag == "Left")
@@ -569,6 +602,7 @@ public class Procedural : MonoBehaviour
             UOne.transform.Rotate(0, -90, 0);
             UOne.transform.localPosition = new Vector3(0, 0, 7);
             UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UOne);
             checkOne = false;
         }
         if (gameObject.tag == "T")
@@ -580,6 +614,7 @@ public class Procedural : MonoBehaviour
             UOne.transform.Rotate(0, 180, 0);
             UOne.transform.localPosition = new Vector3(-7, 0, 0);
             UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UOne);
             checkOne = false;
         }
     }
@@ -593,6 +628,7 @@ public class Procedural : MonoBehaviour
             UTwo.transform.parent = gameObject.transform;
             UTwo.transform.localPosition = new Vector3(7, 0, 0);
             UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UTwo);
             checkTwo = false;
         }
         if (gameObject.tag == "Right")
@@ -603,6 +639,7 @@ public class Procedural : MonoBehaviour
             UTwo.transform.parent = gameObject.transform;
             UTwo.transform.localPosition = new Vector3(7, 0, 0);
             UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UTwo);
             checkTwo = false;
         }
         if (gameObject.tag == "Left")
@@ -614,6 +651,7 @@ public class Procedural : MonoBehaviour
             UTwo.transform.Rotate(0, 180, 0);
             UTwo.transform.localPosition = new Vector3(-7, 0, 0);
             UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UTwo);
             checkTwo = false;
         }
         if (gameObject.tag == "T")
@@ -623,8 +661,9 @@ public class Procedural : MonoBehaviour
             UTwo.transform.rotation = gameObject.transform.rotation;
             UTwo.transform.parent = gameObject.transform;
             UTwo.transform.Rotate(0, -90, 0);
-            UTwo.transform.localPosition = new Vector3(-1, 0, 3);
+            UTwo.transform.localPosition = new Vector3(0, 0, 7);
             UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UTwo);
             checkTwo = false;
         }
     }
@@ -637,14 +676,20 @@ public class Procedural : MonoBehaviour
             UThree.transform.rotation = gameObject.transform.rotation;
             UThree.transform.parent = gameObject.transform;
             UThree.transform.Rotate(0, 90, 0);
-            UThree.transform.localPosition = new Vector3(4, 0, -8);
+            UThree.transform.localPosition = new Vector3(0, 0, -7);
             UThree.transform.parent = GameObject.Find("SPawnPArent").transform;
+            AddToLists(UThree);
             checkThree = false;
         }
     }
         public void DeclairRando()
     {
         rando = Random.Range(0, 4);
-        rando = 3;
     }
+    public void AddToLists(GameObject objectToAdd)
+    {
+        counter.GetComponent<Counter>().CheckForOverlaps(objectToAdd);
+    }
+
 }
+

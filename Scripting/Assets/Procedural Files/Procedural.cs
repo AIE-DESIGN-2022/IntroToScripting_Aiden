@@ -22,10 +22,16 @@ public class Procedural : MonoBehaviour
     public GameObject counter;
     public float pieceCount;
     public float maxCount;
-    Transform spawnParent;
-
+    public GameObject objectToDefine;
+    public GameObject parent;
     public List<Vector3> pieceLocations;
     public List<GameObject> locationDict;
+    private Vector3 pieceOnePosition;
+    private Vector3 pieceTwoPosition;
+    private Vector3 pieceThreePosition;
+    private float pieceOneRotation;
+    private float pieceTwoRotation;    
+    private float pieceThreeRotation;
 
     // Start is called before the first frame update
     void Awake()
@@ -39,8 +45,45 @@ public class Procedural : MonoBehaviour
         triggerThreeCollided = false;
         manager = GameObject.FindGameObjectWithTag("Manager");
         counter = GameObject.FindGameObjectWithTag("Counter");
+        parent = GameObject.FindGameObjectWithTag("Parent");
         generating = true;
         maxCount = counter.GetComponent<Counter>().maxPieces;
+        if (gameObject.tag == "Tunnel")
+        {
+            pieceOnePosition = new Vector3(-7, 0, 0);
+            pieceTwoPosition = new Vector3(7, 0, 0);
+            pieceThreePosition = new Vector3(0, 0, 0);
+            pieceOneRotation = 180;
+            pieceTwoRotation = 0;
+            pieceThreeRotation = 0;
+        }
+        if (gameObject.tag == "Right")
+        {
+            pieceOnePosition = new Vector3(-7, 0, 0);
+            pieceTwoPosition = new Vector3(0, 0, -7);
+            pieceThreePosition = new Vector3(0, 0, 0);
+            pieceOneRotation = 180;
+            pieceTwoRotation = 90;
+            pieceThreeRotation = 0;
+        }
+        if (gameObject.tag == "Left")
+        {
+            pieceOnePosition = new Vector3(0, 0, 7);
+            pieceTwoPosition = new Vector3(-7, 0, 0);
+            pieceThreePosition = new Vector3(0, 0, 0);
+            pieceOneRotation = -90;
+            pieceTwoRotation = 180;
+            pieceThreeRotation = 0;
+        }
+        if (gameObject.tag == "T")
+        {
+            pieceOnePosition = new Vector3(-7, 0, 0);
+            pieceTwoPosition = new Vector3(0, 0, 7);
+            pieceThreePosition = new Vector3(0, 0, -7);
+            pieceOneRotation = 0;
+            pieceTwoRotation = -90;
+            pieceThreeRotation = 90;
+        }
     }
 
     // Update is called once per frame
@@ -55,14 +98,7 @@ public class Procedural : MonoBehaviour
                 {
                     manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
                     DeclairRando();
-                    if (pieceCount <= maxCount)
-                    {
-                        CreateNextMazeOne();
-                    }
-                    else if (pieceCount > maxCount)
-                    {
-                        CreateEndMazeOne();
-                    }
+                    CreateNextMazeOne(objectToDefine);
                 }
                 if (Time.time > startTime + 0.05F)
                 {
@@ -70,14 +106,7 @@ public class Procedural : MonoBehaviour
                     {
                         manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
                         DeclairRando();
-                        if (pieceCount <= maxCount)
-                        {
-                            CreateNextMazeTwo();
-                        }
-                        else if (pieceCount > maxCount)
-                        {
-                            CreateEndMazeTwo();
-                        }
+                        CreateNextMazeTwo(objectToDefine);
                     }
                 }
                 if (Time.time > startTime + 0.5F)
@@ -86,14 +115,7 @@ public class Procedural : MonoBehaviour
                     {
                         manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
                         DeclairRando();
-                        if (pieceCount <= maxCount)
-                        {
-                            CreateNextMazeThree();
-                        }
-                        else if (pieceCount > maxCount)
-                        {
-                            CreateEndMazeThree();
-                        }
+                        CreateNextMazeThree(objectToDefine);
                     }
                 }
             }
@@ -103,591 +125,68 @@ public class Procedural : MonoBehaviour
             generating = false;
         }
     }
-    public void CreateNextMazeOne()
+    public void CreateNextMazeOne(GameObject obj)
     {
-        if (gameObject.tag == "Tunnel")
-        {
-            if (rando == 0)
-            {
-                GameObject TunOne = Instantiate(tun, transform.position, Quaternion.identity);
-                TunOne.transform.position = gameObject.transform.position;
-                TunOne.transform.rotation = gameObject.transform.rotation;
-                TunOne.transform.parent = gameObject.transform;
-                TunOne.transform.Rotate(0, 180, 0);
-                TunOne.transform.localPosition = new Vector3(-7, 0, 0);
-                TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunOne);
-                checkOne = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightOne = Instantiate(right, transform.position, Quaternion.identity);
-                RightOne.transform.position = gameObject.transform.position;
-                RightOne.transform.rotation = gameObject.transform.rotation;
-                RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, 180, 0);
-                RightOne.transform.localPosition = new Vector3(-7, 0, 0);
-                RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightOne);
-                checkOne = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftOne = Instantiate(left, transform.position, Quaternion.identity);
-                LeftOne.transform.position = gameObject.transform.position;
-                LeftOne.transform.rotation = gameObject.transform.rotation;
-                LeftOne.transform.parent = gameObject.transform;
-                LeftOne.transform.Rotate(0, 180, 0);
-                LeftOne.transform.localPosition = new Vector3(-7, 0, 0);
-                LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftOne);
-                checkOne = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TOne = Instantiate(t, transform.position, Quaternion.identity);
-                TOne.transform.position = gameObject.transform.position;
-                TOne.transform.rotation = gameObject.transform.rotation;
-                TOne.transform.parent = gameObject.transform;
-                TOne.transform.Rotate(0, 180, 0);
-                TOne.transform.localPosition = new Vector3(-7, 0, 0);
-                TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TOne);
-                checkOne = false;
-            }
-        }
-        if (gameObject.tag == "Right")
-        {
-            if (rando == 0)
-            {
-                GameObject TunOne = Instantiate(tun, transform.position, Quaternion.identity);
-                TunOne.transform.position = gameObject.transform.position;
-                TunOne.transform.rotation = gameObject.transform.rotation;
-                TunOne.transform.parent = gameObject.transform;
-                TunOne.transform.Rotate(0, 180, 0);
-                TunOne.transform.localPosition = new Vector3(-7, 0, 0);
-                TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunOne);
-                checkOne = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightOne = Instantiate(right, transform.position, Quaternion.identity);
-                RightOne.transform.position = gameObject.transform.position;
-                RightOne.transform.rotation = gameObject.transform.rotation;
-                RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, 180, 0);
-                RightOne.transform.localPosition = new Vector3(-7, 0, 0);
-                RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightOne);
-                checkOne = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftOne = Instantiate(left, transform.position, Quaternion.identity);
-                LeftOne.transform.position = gameObject.transform.position;
-                LeftOne.transform.rotation = gameObject.transform.rotation;
-                LeftOne.transform.parent = gameObject.transform;
-                LeftOne.transform.Rotate(0, 180, 0);
-                LeftOne.transform.localPosition = new Vector3(-7, 0, 0);
-                LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftOne);
-                checkOne = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TOne = Instantiate(t, transform.position, Quaternion.identity);
-                TOne.transform.position = gameObject.transform.position;
-                TOne.transform.rotation = gameObject.transform.rotation;
-                TOne.transform.parent = gameObject.transform;
-                TOne.transform.Rotate(0, 180, 0);
-                TOne.transform.localPosition = new Vector3(-7, 0, 0);
-                TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TOne);
-                checkOne = false;
-            }
-        }
-        if (gameObject.tag == "Left")
-        {
-            if (rando == 0)
-            {
-                GameObject TunOne = Instantiate(tun, transform.position, Quaternion.identity);
-                TunOne.transform.position = gameObject.transform.position;
-                TunOne.transform.rotation = gameObject.transform.rotation;
-                TunOne.transform.parent = gameObject.transform;
-                TunOne.transform.Rotate(0, 90, 0);
-                TunOne.transform.localPosition = new Vector3(0, 0, 7);
-                TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunOne);
-                checkOne = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightOne = Instantiate(right, transform.position, Quaternion.identity);
-                RightOne.transform.position = gameObject.transform.position;
-                RightOne.transform.rotation = gameObject.transform.rotation;
-                RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, 270, 0);
-                RightOne.transform.localPosition = new Vector3(0, 0, 7);
-                RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightOne);
-                checkOne = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftOne = Instantiate(left, transform.position, Quaternion.identity);
-                LeftOne.transform.position = gameObject.transform.position;
-                LeftOne.transform.rotation = gameObject.transform.rotation;
-                LeftOne.transform.parent = gameObject.transform;
-                LeftOne.transform.Rotate(0, 270, 0);
-                LeftOne.transform.localPosition = new Vector3(0, 0, 7);
-                LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftOne);
-                checkOne = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TOne = Instantiate(t, transform.position, Quaternion.identity);
-                TOne.transform.position = gameObject.transform.position;
-                TOne.transform.rotation = gameObject.transform.rotation;
-                TOne.transform.parent = gameObject.transform;
-                TOne.transform.Rotate(0, 270, 0);
-                TOne.transform.localPosition = new Vector3(0, 0, 7);
-                TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TOne);
-                checkOne = false;
-            }
-        }
-        if (gameObject.tag == "T")
-        {
-            if (rando == 0)
-            {
-                GameObject TunOne = Instantiate(tun, transform.position, Quaternion.identity);
-                TunOne.transform.position = gameObject.transform.position;
-                TunOne.transform.rotation = gameObject.transform.rotation;
-                TunOne.transform.parent = gameObject.transform;
-                TunOne.transform.Rotate(0, 0, 0);
-                TunOne.transform.localPosition = new Vector3(-7, 0, 0);
-                TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunOne);
-                checkOne = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightOne = Instantiate(right, transform.position, Quaternion.identity);
-                RightOne.transform.position = gameObject.transform.position;
-                RightOne.transform.rotation = gameObject.transform.rotation;
-                RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, 180, 0);
-                RightOne.transform.localPosition = new Vector3(-7, 0, 0);
-                RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightOne);
-                checkOne = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftOne = Instantiate(left, transform.position, Quaternion.identity);
-                LeftOne.transform.position = gameObject.transform.position;
-                LeftOne.transform.rotation = gameObject.transform.rotation;
-                LeftOne.transform.parent = gameObject.transform;
-                LeftOne.transform.Rotate(0, 180, 0);
-                LeftOne.transform.localPosition = new Vector3(-7, 0, 0);
-                LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftOne);
-                checkOne = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TOne = Instantiate(t, transform.position, Quaternion.identity);
-                TOne.transform.position = gameObject.transform.position;
-                TOne.transform.rotation = gameObject.transform.rotation;
-                TOne.transform.parent = gameObject.transform;
-                TOne.transform.Rotate(0, 180, 0);
-                TOne.transform.localPosition = new Vector3(-7, 0, 0);
-                TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TOne);
-                checkOne = false;
-            }
-        }
+        GameObject PieceOne = Instantiate(obj, transform.position, Quaternion.identity);
+        PieceOne.transform.position = gameObject.transform.position;
+        PieceOne.transform.rotation = gameObject.transform.rotation;
+        PieceOne.transform.parent = gameObject.transform;
+        PieceOne.transform.Rotate(0, pieceOneRotation, 0);
+        PieceOne.transform.localPosition = pieceOnePosition;
+        PieceOne.transform.parent = parent.transform;
+        AddToLists(PieceOne);
+        checkOne = false;
     }
-    public void CreateNextMazeTwo()
+    public void CreateNextMazeTwo(GameObject obj)
     {
-        if (gameObject.tag == "Tunnel")
-        {
-            if (rando == 0)
-            {
-                GameObject TunTwo = Instantiate(tun, transform.position, Quaternion.identity);
-                TunTwo.transform.position = gameObject.transform.position;
-                TunTwo.transform.rotation = gameObject.transform.rotation;
-                TunTwo.transform.parent = gameObject.transform;
-                TunTwo.transform.localPosition = new Vector3(7, 0, 0);
-                TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunTwo);
-                checkTwo = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightTwo = Instantiate(right, transform.position, Quaternion.identity);
-                RightTwo.transform.position = gameObject.transform.position;
-                RightTwo.transform.rotation = gameObject.transform.rotation;
-                RightTwo.transform.parent = gameObject.transform;
-                RightTwo.transform.Rotate(0, 0, 0);
-                RightTwo.transform.localPosition = new Vector3(7, 0, 0);
-                RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightTwo);
-                checkTwo = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftTwo = Instantiate(left, transform.position, Quaternion.identity);
-                LeftTwo.transform.position = gameObject.transform.position;
-                LeftTwo.transform.rotation = gameObject.transform.rotation;
-                LeftTwo.transform.parent = gameObject.transform;
-                LeftTwo.transform.Rotate(0, 0, 0);
-                LeftTwo.transform.localPosition = new Vector3(7, 0, 0);
-                LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftTwo);
-                checkTwo = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TTwo = Instantiate(t, transform.position, Quaternion.identity);
-                TTwo.transform.position = gameObject.transform.position;
-                TTwo.transform.rotation = gameObject.transform.rotation;
-                TTwo.transform.parent = gameObject.transform;
-                TTwo.transform.Rotate(0, 0, 0);
-                TTwo.transform.localPosition = new Vector3(7, 0, 0);
-                TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TTwo);
-                checkTwo = false;
-            }
-        }
-        if (gameObject.tag == "Right")
-        {
-            if (rando == 0)
-            {
-                GameObject TunTwo = Instantiate(tun, transform.position, Quaternion.identity);
-                TunTwo.transform.position = gameObject.transform.position;
-                TunTwo.transform.rotation = gameObject.transform.rotation;
-                TunTwo.transform.parent = gameObject.transform;
-                TunTwo.transform.Rotate(0, 90, 0);
-                TunTwo.transform.localPosition = new Vector3(0, 0, -7);
-                TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunTwo);
-                checkTwo = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightTwo = Instantiate(right, transform.position, Quaternion.identity);
-                RightTwo.transform.position = gameObject.transform.position;
-                RightTwo.transform.rotation = gameObject.transform.rotation;
-                RightTwo.transform.parent = gameObject.transform;
-                RightTwo.transform.Rotate(0, 90, 0);
-                RightTwo.transform.localPosition = new Vector3(0, 0, -7);
-                RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightTwo);
-                checkTwo = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftTwo = Instantiate(left, transform.position, Quaternion.identity);
-                LeftTwo.transform.position = gameObject.transform.position;
-                LeftTwo.transform.rotation = gameObject.transform.rotation;
-                LeftTwo.transform.parent = gameObject.transform;
-                LeftTwo.transform.Rotate(0, 90, 0);
-                LeftTwo.transform.localPosition = new Vector3(0, 0, -7);
-                LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftTwo);
-                checkTwo = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TTwo = Instantiate(t, transform.position, Quaternion.identity);
-                TTwo.transform.position = gameObject.transform.position;
-                TTwo.transform.rotation = gameObject.transform.rotation;
-                TTwo.transform.parent = gameObject.transform;
-                TTwo.transform.Rotate(0, 90, 0);
-                TTwo.transform.localPosition = new Vector3(0, 0, -7);
-                TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TTwo);
-                checkTwo = false;
-            }
-        }
-        if (gameObject.tag == "Left")
-        {
-            if (rando == 0)
-            {
-                GameObject TunTwo = Instantiate(tun, transform.position, Quaternion.identity);
-                TunTwo.transform.position = gameObject.transform.position;
-                TunTwo.transform.rotation = gameObject.transform.rotation;
-                TunTwo.transform.parent = gameObject.transform;
-                TunTwo.transform.localPosition = new Vector3(-7, 0, 0);
-                TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunTwo);
-                checkTwo = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightTwo = Instantiate(right, transform.position, Quaternion.identity);
-                RightTwo.transform.position = gameObject.transform.position;
-                RightTwo.transform.rotation = gameObject.transform.rotation;
-                RightTwo.transform.parent = gameObject.transform;
-                RightTwo.transform.Rotate(0, 180, 0);
-                RightTwo.transform.localPosition = new Vector3(-7, 0, 0);
-                RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightTwo);
-                checkTwo = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftTwo = Instantiate(left, transform.position, Quaternion.identity);
-                LeftTwo.transform.position = gameObject.transform.position;
-                LeftTwo.transform.rotation = gameObject.transform.rotation;
-                LeftTwo.transform.parent = gameObject.transform;
-                LeftTwo.transform.Rotate(0, 180, 0);
-                LeftTwo.transform.localPosition = new Vector3(-7, 0, 0);
-                LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftTwo);
-                checkTwo = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TTwo = Instantiate(t, transform.position, Quaternion.identity);
-                TTwo.transform.position = gameObject.transform.position;
-                TTwo.transform.rotation = gameObject.transform.rotation;
-                TTwo.transform.parent = gameObject.transform;
-                TTwo.transform.Rotate(0, 180, 0);
-                TTwo.transform.localPosition = new Vector3(-7, 0, 0);
-                TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TTwo);
-                checkTwo = false;
-            }
-        }
-        if (gameObject.tag == "T")
-        {
-            if (rando == 0)
-            {
-                GameObject TunTwo = Instantiate(tun, transform.position, Quaternion.identity);
-                TunTwo.transform.position = gameObject.transform.position;
-                TunTwo.transform.rotation = gameObject.transform.rotation;
-                TunTwo.transform.parent = gameObject.transform;
-                TunTwo.transform.Rotate(0, 90, 0);
-                TunTwo.transform.localPosition = new Vector3(0, 0, 7);
-                TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunTwo);
-                checkTwo = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightTwo = Instantiate(right, transform.position, Quaternion.identity);
-                RightTwo.transform.position = gameObject.transform.position;
-                RightTwo.transform.rotation = gameObject.transform.rotation;
-                RightTwo.transform.parent = gameObject.transform;
-                RightTwo.transform.Rotate(0, -90, 0);
-                RightTwo.transform.localPosition = new Vector3(0, 0, 7);
-                RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightTwo);
-                checkTwo = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftTwo = Instantiate(left, transform.position, Quaternion.identity);
-                LeftTwo.transform.position = gameObject.transform.position;
-                LeftTwo.transform.rotation = gameObject.transform.rotation;
-                LeftTwo.transform.parent = gameObject.transform;
-                LeftTwo.transform.Rotate(0, -90, 0);
-                LeftTwo.transform.localPosition = new Vector3(0, 0, 7);
-                LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftTwo);
-                checkTwo = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TTwo = Instantiate(t, transform.position, Quaternion.identity);
-                TTwo.transform.position = gameObject.transform.position;
-                TTwo.transform.rotation = gameObject.transform.rotation;
-                TTwo.transform.parent = gameObject.transform;
-                TTwo.transform.Rotate(0, -90, 0);
-                TTwo.transform.localPosition = new Vector3(0, 0, 7);
-                TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TTwo);
-                checkTwo = false;
-            }
-        }
+        GameObject PieceTwo = Instantiate(obj, transform.position, Quaternion.identity);
+        PieceTwo.transform.position = gameObject.transform.position;
+        PieceTwo.transform.rotation = gameObject.transform.rotation;
+        PieceTwo.transform.parent = gameObject.transform;
+        PieceTwo.transform.Rotate(0, pieceTwoRotation, 0);
+        PieceTwo.transform.localPosition = pieceTwoPosition;
+        PieceTwo.transform.parent = parent.transform;
+        AddToLists(PieceTwo);
+        checkTwo = false;
     }
-    public void CreateNextMazeThree()
+    public void CreateNextMazeThree(GameObject obj)
     {
-        if (gameObject.tag == "T")
-        {
-            if (rando == 0)
-            {
-                GameObject TunThree = Instantiate(tun, transform.position, Quaternion.identity);
-                TunThree.transform.position = gameObject.transform.position;
-                TunThree.transform.rotation = gameObject.transform.rotation;
-                TunThree.transform.parent = gameObject.transform;
-                TunThree.transform.Rotate(0, 90, 0);
-                TunThree.transform.localPosition = new Vector3(0, 0, -7);
-                TunThree.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TunThree);
-                checkThree = false;
-            }
-            if (rando == 1)
-            {
-                GameObject RightThree = Instantiate(right, transform.position, Quaternion.identity);
-                RightThree.transform.position = gameObject.transform.position;
-                RightThree.transform.rotation = gameObject.transform.rotation;
-                RightThree.transform.parent = gameObject.transform;
-                RightThree.transform.Rotate(0, 90, 0);
-                RightThree.transform.localPosition = new Vector3(0, 0, -7);
-                RightThree.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(RightThree);
-                checkThree = false;
-            }
-            if (rando == 2)
-            {
-                GameObject LeftThree = Instantiate(left, transform.position, Quaternion.identity);
-                LeftThree.transform.position = gameObject.transform.position;
-                LeftThree.transform.rotation = gameObject.transform.rotation;
-                LeftThree.transform.parent = gameObject.transform;
-                LeftThree.transform.Rotate(0, 90, 0);
-                LeftThree.transform.localPosition = new Vector3(0, 0, -7);
-                LeftThree.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(LeftThree);
-                checkThree = false;
-            }
-            if (rando == 3)
-            {
-                GameObject TThree = Instantiate(t, transform.position, Quaternion.identity);
-                TThree.transform.position = gameObject.transform.position;
-                TThree.transform.rotation = gameObject.transform.rotation;
-                TThree.transform.parent = gameObject.transform;
-                TThree.transform.Rotate(0, 90, 0);
-                TThree.transform.localPosition = new Vector3(0, 0, -7);
-                TThree.transform.parent = GameObject.Find("SPawnPArent").transform;
-                AddToLists(TThree);
-                checkThree = false;
-            }
-        }
-    }
-    public void CreateEndMazeOne()
-    {
-        if (gameObject.tag == "Tunnel")
-        {
-            GameObject UOne = Instantiate(u, transform.position, Quaternion.identity);
-            UOne.transform.position = gameObject.transform.position;
-            UOne.transform.rotation = gameObject.transform.rotation;
-            UOne.transform.parent = gameObject.transform;
-            UOne.transform.Rotate(0, -180, 0);
-            UOne.transform.localPosition = new Vector3(-7, 0, 0);
-            UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UOne);
-            checkOne = false;
-        }
-        if (gameObject.tag == "Right")
-        {
-            GameObject UOne = Instantiate(u, transform.position, Quaternion.identity);
-            UOne.transform.position = gameObject.transform.position;
-            UOne.transform.rotation = gameObject.transform.rotation;
-            UOne.transform.parent = gameObject.transform;
-            UOne.transform.Rotate(0, 180, 0);
-            UOne.transform.localPosition = new Vector3(-7, 0, 0);
-            UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UOne);
-            checkOne = false;
-        }
-        if (gameObject.tag == "Left")
-        {
-            GameObject UOne = Instantiate(u, transform.position, Quaternion.identity);
-            UOne.transform.position = gameObject.transform.position;
-            UOne.transform.rotation = gameObject.transform.rotation;
-            UOne.transform.parent = gameObject.transform;
-            UOne.transform.Rotate(0, -90, 0);
-            UOne.transform.localPosition = new Vector3(0, 0, 7);
-            UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UOne);
-            checkOne = false;
-        }
-        if (gameObject.tag == "T")
-        {
-            GameObject UOne = Instantiate(u, transform.position, Quaternion.identity);
-            UOne.transform.position = gameObject.transform.position;
-            UOne.transform.rotation = gameObject.transform.rotation;
-            UOne.transform.parent = gameObject.transform;
-            UOne.transform.Rotate(0, 180, 0);
-            UOne.transform.localPosition = new Vector3(-7, 0, 0);
-            UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UOne);
-            checkOne = false;
-        }
-    }
-    public void CreateEndMazeTwo()
-    {
-        if (gameObject.tag == "Tunnel")
-        {
-            GameObject UTwo = Instantiate(u, transform.position, Quaternion.identity);
-            UTwo.transform.position = gameObject.transform.position;
-            UTwo.transform.rotation = gameObject.transform.rotation;
-            UTwo.transform.parent = gameObject.transform;
-            UTwo.transform.localPosition = new Vector3(7, 0, 0);
-            UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UTwo);
-            checkTwo = false;
-        }
-        if (gameObject.tag == "Right")
-        {
-            GameObject UTwo = Instantiate(u, transform.position, Quaternion.identity);
-            UTwo.transform.position = gameObject.transform.position;
-            UTwo.transform.rotation = gameObject.transform.rotation;
-            UTwo.transform.parent = gameObject.transform;
-            UTwo.transform.Rotate(0, 90, 0);
-            UTwo.transform.localPosition = new Vector3(0, 0, -7);
-            UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UTwo);
-            checkTwo = false;
-        }
-        if (gameObject.tag == "Left")
-        {
-            GameObject UTwo = Instantiate(u, transform.position, Quaternion.identity);
-            UTwo.transform.position = gameObject.transform.position;
-            UTwo.transform.rotation = gameObject.transform.rotation;
-            UTwo.transform.parent = gameObject.transform;
-            UTwo.transform.Rotate(0, 180, 0);
-            UTwo.transform.localPosition = new Vector3(-7, 0, 0);
-            UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UTwo);
-            checkTwo = false;
-        }
-        if (gameObject.tag == "T")
-        {
-            GameObject UTwo = Instantiate(u, transform.position, Quaternion.identity);
-            UTwo.transform.position = gameObject.transform.position;
-            UTwo.transform.rotation = gameObject.transform.rotation;
-            UTwo.transform.parent = gameObject.transform;
-            UTwo.transform.Rotate(0, -90, 0);
-            UTwo.transform.localPosition = new Vector3(0, 0, 7);
-            UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UTwo);
-            checkTwo = false;
-        }
-    }
-    public void CreateEndMazeThree()
-    {
-        if (gameObject.tag == "T")
-        {
-            GameObject UThree = Instantiate(u, transform.position, Quaternion.identity);
-            UThree.transform.position = gameObject.transform.position;
-            UThree.transform.rotation = gameObject.transform.rotation;
-            UThree.transform.parent = gameObject.transform;
-            UThree.transform.Rotate(0, 90, 0);
-            UThree.transform.localPosition = new Vector3(0, 0, -7);
-            UThree.transform.parent = GameObject.Find("SPawnPArent").transform;
-            AddToLists(UThree);
-            checkThree = false;
-        }
+        GameObject PieceThree = Instantiate(obj, transform.position, Quaternion.identity);
+        PieceThree.transform.position = gameObject.transform.position;
+        PieceThree.transform.rotation = gameObject.transform.rotation;
+        PieceThree.transform.parent = gameObject.transform;
+        PieceThree.transform.Rotate(0, pieceThreeRotation, 0);
+        PieceThree.transform.localPosition = pieceThreePosition;
+        PieceThree.transform.parent = parent.transform;
+        AddToLists(PieceThree);
+        checkThree = false;
     }
         public void DeclairRando()
     {
-        rando = Random.Range(0, 4);
+        if (pieceCount < maxCount)
+        {
+            rando = Random.Range(0, 4);
+            if (rando == 0)
+            {
+                objectToDefine = tun;
+            }
+            if (rando == 1)
+            {
+                objectToDefine = right;
+            }
+            if (rando == 2)
+            {
+                objectToDefine = left;
+            }
+            if (rando == 3)
+            {
+                objectToDefine = t;
+            }
+        }
+        else
+        {
+            objectToDefine = u;
+        }
     }
     public void AddToLists(GameObject objectToAdd)
     {

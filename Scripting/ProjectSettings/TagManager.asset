@@ -25,6 +25,7 @@ TagManager:
   - Manager
   - Wait
   - U
+  - Parent
   layers:
   - Default
   - TransparentFX

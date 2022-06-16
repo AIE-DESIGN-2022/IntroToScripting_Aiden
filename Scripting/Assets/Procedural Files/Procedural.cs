@@ -113,6 +113,7 @@ public class Procedural : MonoBehaviour
                 TunOne.transform.position = gameObject.transform.position;
                 TunOne.transform.rotation = gameObject.transform.rotation;
                 TunOne.transform.parent = gameObject.transform;
+                TunOne.transform.Rotate(0, 180, 0);
                 TunOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(TunOne);
@@ -124,7 +125,7 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.position = gameObject.transform.position;
                 RightOne.transform.rotation = gameObject.transform.rotation;
                 RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, -90, 0);
+                RightOne.transform.Rotate(0, 180, 0);
                 RightOne.transform.localPosition = new Vector3(-7, 0, 0);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightOne);
@@ -136,7 +137,7 @@ public class Procedural : MonoBehaviour
                 LeftOne.transform.position = gameObject.transform.position;
                 LeftOne.transform.rotation = gameObject.transform.rotation;
                 LeftOne.transform.parent = gameObject.transform;
-                LeftOne.transform.Rotate(0, -180, 0);
+                LeftOne.transform.Rotate(0, 180, 0);
                 LeftOne.transform.localPosition = new Vector3(-7, 0, 0);
                 LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(LeftOne);
@@ -148,7 +149,7 @@ public class Procedural : MonoBehaviour
                 TOne.transform.position = gameObject.transform.position;
                 TOne.transform.rotation = gameObject.transform.rotation;
                 TOne.transform.parent = gameObject.transform;
-                TOne.transform.Rotate(0, -180, 0);
+                TOne.transform.Rotate(0, 180, 0);
                 TOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(TOne);
@@ -163,8 +164,8 @@ public class Procedural : MonoBehaviour
                 TunOne.transform.position = gameObject.transform.position;
                 TunOne.transform.rotation = gameObject.transform.rotation;
                 TunOne.transform.parent = gameObject.transform;
-                TunOne.transform.Rotate(0, 90, 0);
-                TunOne.transform.localPosition = new Vector3(0, 0, -7);
+                TunOne.transform.Rotate(0, 180, 0);
+                TunOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TunOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(TunOne);
                 checkOne = false;
@@ -175,8 +176,8 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.position = gameObject.transform.position;
                 RightOne.transform.rotation = gameObject.transform.rotation;
                 RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, -180, 0);
-                RightOne.transform.localPosition = new Vector3(0, 0, -7);
+                RightOne.transform.Rotate(0, 180, 0);
+                RightOne.transform.localPosition = new Vector3(-7, 0, 0);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightOne);
                 checkOne = false;
@@ -187,8 +188,8 @@ public class Procedural : MonoBehaviour
                 LeftOne.transform.position = gameObject.transform.position;
                 LeftOne.transform.rotation = gameObject.transform.rotation;
                 LeftOne.transform.parent = gameObject.transform;
-                LeftOne.transform.Rotate(0, 90, 0);
-                LeftOne.transform.localPosition = new Vector3(0, 0, -7);
+                LeftOne.transform.Rotate(0, 180, 0);
+                LeftOne.transform.localPosition = new Vector3(-7, 0, 0);
                 LeftOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(LeftOne);
                 checkOne = false;
@@ -199,8 +200,8 @@ public class Procedural : MonoBehaviour
                 TOne.transform.position = gameObject.transform.position;
                 TOne.transform.rotation = gameObject.transform.rotation;
                 TOne.transform.parent = gameObject.transform;
-                TOne.transform.Rotate(0, 90, 0);
-                TOne.transform.localPosition = new Vector3(0, 0, -7);
+                TOne.transform.Rotate(0, 180, 0);
+                TOne.transform.localPosition = new Vector3(-7, 0, 0);
                 TOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(TOne);
                 checkOne = false;
@@ -226,7 +227,7 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.position = gameObject.transform.position;
                 RightOne.transform.rotation = gameObject.transform.rotation;
                 RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, 0, 0);
+                RightOne.transform.Rotate(0, 270, 0);
                 RightOne.transform.localPosition = new Vector3(0, 0, 7);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightOne);
@@ -277,7 +278,7 @@ public class Procedural : MonoBehaviour
                 RightOne.transform.position = gameObject.transform.position;
                 RightOne.transform.rotation = gameObject.transform.rotation;
                 RightOne.transform.parent = gameObject.transform;
-                RightOne.transform.Rotate(0, -90, 0);
+                RightOne.transform.Rotate(0, 180, 0);
                 RightOne.transform.localPosition = new Vector3(-7, 0, 0);
                 RightOne.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightOne);
@@ -330,7 +331,7 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.position = gameObject.transform.position;
                 RightTwo.transform.rotation = gameObject.transform.rotation;
                 RightTwo.transform.parent = gameObject.transform;
-                RightTwo.transform.Rotate(0, 90, 0);
+                RightTwo.transform.Rotate(0, 0, 0);
                 RightTwo.transform.localPosition = new Vector3(7, 0, 0);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightTwo);
@@ -369,7 +370,8 @@ public class Procedural : MonoBehaviour
                 TunTwo.transform.position = gameObject.transform.position;
                 TunTwo.transform.rotation = gameObject.transform.rotation;
                 TunTwo.transform.parent = gameObject.transform;
-                TunTwo.transform.localPosition = new Vector3(7, 0, 0);
+                TunTwo.transform.Rotate(0, 90, 0);
+                TunTwo.transform.localPosition = new Vector3(0, 0, -7);
                 TunTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(TunTwo);
                 checkTwo = false;
@@ -381,7 +383,7 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.rotation = gameObject.transform.rotation;
                 RightTwo.transform.parent = gameObject.transform;
                 RightTwo.transform.Rotate(0, 90, 0);
-                RightTwo.transform.localPosition = new Vector3(7, 0, 0);
+                RightTwo.transform.localPosition = new Vector3(0, 0, -7);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightTwo);
                 checkTwo = false;
@@ -392,8 +394,8 @@ public class Procedural : MonoBehaviour
                 LeftTwo.transform.position = gameObject.transform.position;
                 LeftTwo.transform.rotation = gameObject.transform.rotation;
                 LeftTwo.transform.parent = gameObject.transform;
-                LeftTwo.transform.Rotate(0, 0, 0);
-                LeftTwo.transform.localPosition = new Vector3(7, 0, 0);
+                LeftTwo.transform.Rotate(0, 90, 0);
+                LeftTwo.transform.localPosition = new Vector3(0, 0, -7);
                 LeftTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(LeftTwo);
                 checkTwo = false;
@@ -404,8 +406,8 @@ public class Procedural : MonoBehaviour
                 TTwo.transform.position = gameObject.transform.position;
                 TTwo.transform.rotation = gameObject.transform.rotation;
                 TTwo.transform.parent = gameObject.transform;
-                TTwo.transform.Rotate(0, 0, 0);
-                TTwo.transform.localPosition = new Vector3(7, 0, 0);
+                TTwo.transform.Rotate(0, 90, 0);
+                TTwo.transform.localPosition = new Vector3(0, 0, -7);
                 TTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(TTwo);
                 checkTwo = false;
@@ -430,7 +432,7 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.position = gameObject.transform.position;
                 RightTwo.transform.rotation = gameObject.transform.rotation;
                 RightTwo.transform.parent = gameObject.transform;
-                RightTwo.transform.Rotate(0, 0, 0);
+                RightTwo.transform.Rotate(0, 180, 0);
                 RightTwo.transform.localPosition = new Vector3(-7, 0, 0);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightTwo);
@@ -481,7 +483,7 @@ public class Procedural : MonoBehaviour
                 RightTwo.transform.position = gameObject.transform.position;
                 RightTwo.transform.rotation = gameObject.transform.rotation;
                 RightTwo.transform.parent = gameObject.transform;
-                RightTwo.transform.Rotate(0, 0, 0);
+                RightTwo.transform.Rotate(0, -90, 0);
                 RightTwo.transform.localPosition = new Vector3(0, 0, 7);
                 RightTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightTwo);
@@ -535,7 +537,7 @@ public class Procedural : MonoBehaviour
                 RightThree.transform.position = gameObject.transform.position;
                 RightThree.transform.rotation = gameObject.transform.rotation;
                 RightThree.transform.parent = gameObject.transform;
-                RightThree.transform.Rotate(0, 180, 0);
+                RightThree.transform.Rotate(0, 90, 0);
                 RightThree.transform.localPosition = new Vector3(0, 0, -7);
                 RightThree.transform.parent = GameObject.Find("SPawnPArent").transform;
                 AddToLists(RightThree);
@@ -575,8 +577,8 @@ public class Procedural : MonoBehaviour
             UOne.transform.position = gameObject.transform.position;
             UOne.transform.rotation = gameObject.transform.rotation;
             UOne.transform.parent = gameObject.transform;
-            UOne.transform.localPosition = new Vector3(-7, 0, 0);
             UOne.transform.Rotate(0, -180, 0);
+            UOne.transform.localPosition = new Vector3(-7, 0, 0);
             UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
             AddToLists(UOne);
             checkOne = false;
@@ -587,8 +589,8 @@ public class Procedural : MonoBehaviour
             UOne.transform.position = gameObject.transform.position;
             UOne.transform.rotation = gameObject.transform.rotation;
             UOne.transform.parent = gameObject.transform;
-            UOne.transform.Rotate(0, 90, 0);
-            UOne.transform.localPosition = new Vector3(0, 0, -7);
+            UOne.transform.Rotate(0, 180, 0);
+            UOne.transform.localPosition = new Vector3(-7, 0, 0);
             UOne.transform.parent = GameObject.Find("SPawnPArent").transform;
             AddToLists(UOne);
             checkOne = false;
@@ -637,7 +639,8 @@ public class Procedural : MonoBehaviour
             UTwo.transform.position = gameObject.transform.position;
             UTwo.transform.rotation = gameObject.transform.rotation;
             UTwo.transform.parent = gameObject.transform;
-            UTwo.transform.localPosition = new Vector3(7, 0, 0);
+            UTwo.transform.Rotate(0, 90, 0);
+            UTwo.transform.localPosition = new Vector3(0, 0, -7);
             UTwo.transform.parent = GameObject.Find("SPawnPArent").transform;
             AddToLists(UTwo);
             checkTwo = false;

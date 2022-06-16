@@ -68,23 +68,4 @@ public class GenerationManager : MonoBehaviour
             surfaces[i].BuildNavMesh();
         }
     }
-    public void AddToList()
-    {
-        
-    }
-
-    /*public bool AddToList(Vector3 positionOfObject)
-    {
-        foreach(Vector3 pos in colliderLocations)
-        {
-            if(positionOfObject == pos)
-            {
-                return true;
-            }
-            
-        }
-        colliderLocations.Add(positionOfObject);
-        return false;
-
-    }*/
 }

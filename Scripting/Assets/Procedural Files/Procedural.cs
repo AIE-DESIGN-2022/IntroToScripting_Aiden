@@ -9,10 +9,10 @@ public class Procedural : MonoBehaviour
     public GameObject right;
     public GameObject t;
     public GameObject u;
-    public bool checkOne;
-    public bool checkTwo;
-    public bool checkThree;
-    public float rando;
+    private bool checkOne;
+    private bool checkTwo;
+    private bool checkThree;
+    private float rando;
     public bool triggerOneCollided;
     public bool triggerTwoCollided;
     public bool triggerThreeCollided;

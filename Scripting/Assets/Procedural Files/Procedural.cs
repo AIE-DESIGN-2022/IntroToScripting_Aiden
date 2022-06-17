@@ -31,6 +31,7 @@ public class Procedural : MonoBehaviour
     private float pieceOneRotation;
     private float pieceTwoRotation;    
     private float pieceThreeRotation;
+    private Color randoColor;
 
     // Start is called before the first frame update
     void Awake()
@@ -46,6 +47,10 @@ public class Procedural : MonoBehaviour
         parent = GameObject.FindGameObjectWithTag("Parent");
         generating = true;
         maxCount = manager.maxPieces;
+        if (manager.colour)
+        {
+            RandomiseColor();
+        }
         if (gameObject.tag == "Tunnel")
         {
             pieceOnePosition = new Vector3(-7, 0, 0);
@@ -203,6 +208,14 @@ public class Procedural : MonoBehaviour
     {
         manager.CheckForOverlaps(objectToAdd);
     }
-
+    public void RandomiseColor()
+    {
+        randoColor = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
+        GetComponent<MeshRenderer>().material.color = randoColor;
+        foreach (Renderer r in GetComponentsInChildren<Renderer>())
+        {
+            r.material.color = randoColor;
+        }
+    }
 }
 

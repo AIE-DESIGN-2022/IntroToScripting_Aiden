@@ -18,13 +18,21 @@ public class GenerationManager : MonoBehaviour
     public float maxPieces;
     public List<Vector3> pieceLocations;
     public List<GameObject> locationDict;
-    public bool checkedOne;
+    private bool checkedOne;
+    public bool colour;
+    private float colourChance;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pleaseWait = GameObject.FindGameObjectWithTag("Wait");
+        colourChance = Random.Range(0, 1000);
+        if (colourChance == 777)
+        {
+            colour = true;
+        }
+
     }
 
     // Update is called once per frame

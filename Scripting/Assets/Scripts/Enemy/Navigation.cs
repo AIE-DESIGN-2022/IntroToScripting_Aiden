@@ -6,7 +6,8 @@ using UnityEngine.AI;
 
 public class Navigation : MonoBehaviour
 {
-    public Transform[] patrolPoints;
+    public List<Transform> patrolPoints;
+    public Transform[] telephones;
     private NavMeshAgent agent;
     private Enemy enemyScript;
     public int nextLocation;
@@ -15,15 +16,20 @@ public class Navigation : MonoBehaviour
     public bool suspicousOfPlayer;
     public GameObject theSpookySkeleton;
     public GameObject parentEnemy;
-    public Transform[] telephones;
-    public GameObject parentTelephone;
     private DistanceComparer distanceComparer;
+    private EnemyManager enemyManager;
     // Start is called before the first frame update
     void Awake()
     {
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player");
-        parentTelephone = GameObject.FindGameObjectWithTag("TelephoneParent");
-        telephones = parentTelephone.GetComponentsInChildren<Transform>();
+        enemyManager = FindObjectOfType<EnemyManager>();
+        foreach (Transform child in this.transform)
+        {
+            if (child.tag == "Patrol")
+            {
+                patrolPoints.Add(child.transform);
+            }
+        }
         suspicousOfPlayer = false;
         currentDestination = -1;
         nextLocation = 0;
@@ -85,7 +91,7 @@ public class Navigation : MonoBehaviour
         if (enemyScript.alerted == false)
         {
             //Sets destination to next patrol point if not alerted.
-            if (patrolPoints.Length > nextLocation)
+            if (patrolPoints.Count > nextLocation)
             {
                 agent.SetDestination(patrolPoints[nextLocation].position);
                 currentDestination = nextLocation;
@@ -101,7 +107,7 @@ public class Navigation : MonoBehaviour
         //Sets destination to nearest telephone if alerted.
         else if (enemyScript.alerted == true)
         {
-            agent.SetDestination(telephones[0].transform.position);
+            agent.SetDestination(enemyManager.telephones[0].transform.position);
         }
     }
     //Compares distance of telephones
@@ -130,5 +136,9 @@ public class Navigation : MonoBehaviour
     public void DontFacePlayer()
     {
         agent.angularSpeed = 120;
+    }
+    public void DeclairPhones()
+    {
+        telephones = enemyManager.telephones;
     }
 }

@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class Telephone : MonoBehaviour
 {
-
+    public EnemyManager enemyManager;
     // Start is called before the first frame update
     void Start()
     {
-
+        enemyManager = FindObjectOfType<EnemyManager>();
+        enemyManager.telephonesList.Add(this.transform);
     }
 
     // Update is called once per frame

@@ -26,11 +26,13 @@ TagManager:
   - Wait
   - U
   - Parent
+  - X
+  - Patrol
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Triggers
+  - Wall
   - Water
   - UI
   - 

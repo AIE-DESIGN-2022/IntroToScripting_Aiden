@@ -13,12 +13,8 @@ public class Procedural : MonoBehaviour
     private bool checkTwo;
     private bool checkThree;
     private float rando;
-    public bool triggerOneCollided;
-    public bool triggerTwoCollided;
-    public bool triggerThreeCollided;
     private float startTime;
     public GenerationManager manager;
-    private bool generating;
     public float pieceCount;
     public float maxCount;
     public GameObject objectToDefine;
@@ -40,12 +36,8 @@ public class Procedural : MonoBehaviour
         checkTwo = true;
         checkThree = true;
         startTime = Time.time;
-        triggerOneCollided = false;
-        triggerTwoCollided = false;
-        triggerThreeCollided = false;
         manager = FindObjectOfType<GenerationManager>();
         parent = GameObject.FindGameObjectWithTag("Parent");
-        generating = true;
         maxCount = manager.maxPieces;
         if (manager.colour)
         {
@@ -55,28 +47,22 @@ public class Procedural : MonoBehaviour
         {
             pieceOnePosition = new Vector3(-7, 0, 0);
             pieceTwoPosition = new Vector3(7, 0, 0);
-            pieceThreePosition = new Vector3(0, 0, 0);
             pieceOneRotation = 180;
             pieceTwoRotation = 0;
-            pieceThreeRotation = 0;
         }
         if (gameObject.tag == "Right")
         {
             pieceOnePosition = new Vector3(-7, 0, 0);
             pieceTwoPosition = new Vector3(0, 0, -7);
-            pieceThreePosition = new Vector3(0, 0, 0);
             pieceOneRotation = 180;
             pieceTwoRotation = 90;
-            pieceThreeRotation = 0;
         }
         if (gameObject.tag == "Left")
         {
             pieceOnePosition = new Vector3(0, 0, 7);
             pieceTwoPosition = new Vector3(-7, 0, 0);
-            pieceThreePosition = new Vector3(0, 0, 0);
             pieceOneRotation = -90;
             pieceTwoRotation = 180;
-            pieceThreeRotation = 0;
         }
         if (gameObject.tag == "T")
         {
@@ -93,30 +79,26 @@ public class Procedural : MonoBehaviour
     void Update()
     {
         pieceCount = manager.count;
-        if (Time.time > startTime + 0.05F && generating == true && Time.timeSinceLevelLoad > 1)
+        if (Time.time > startTime + 0.05F && Time.timeSinceLevelLoad > 1)
         {
-            if (checkOne == true && !triggerOneCollided)
+            if (checkOne == true)
             {
-                manager.generationTime = Time.time;
+                manager.generationTime = Time.timeSinceLevelLoad;
                 DeclairRando();
                 CreateNextMazeOne(objectToDefine);
             }
-            if (checkTwo == true && !triggerTwoCollided)
+            if (checkTwo == true)
             {
-                manager.generationTime = Time.time;
+                manager.generationTime = Time.timeSinceLevelLoad;
                 DeclairRando();
                 CreateNextMazeTwo(objectToDefine);
             }
-            if (checkThree == true && !triggerThreeCollided)
+            if (checkThree == true && gameObject.tag == "T")
             {
-                manager.generationTime = Time.time;
+                manager.generationTime = Time.timeSinceLevelLoad;
                 DeclairRando();
                 CreateNextMazeThree(objectToDefine);
             }
-        }
-        if (triggerOneCollided && triggerTwoCollided && triggerThreeCollided)
-        {
-            generating = false;
         }
     }
     public void CreateNextMazeOne(GameObject obj)
@@ -160,7 +142,7 @@ public class Procedural : MonoBehaviour
         if (pieceCount < maxCount)
         {
             rando = Random.Range(0, 100);
-            if (Time.timeSinceLevelLoad < 20)
+            if (Time.timeSinceLevelLoad < 10)
             {
                 if (rando >= 0 && rando <= 30)
                 {
@@ -181,19 +163,19 @@ public class Procedural : MonoBehaviour
             }
             else
             {
-                if (rando >= 0 && rando <= 20)
+                if (rando >= 0 && rando <= 10)
                 {
                     objectToDefine = tun;
                 }
-                if (rando >= 21 && rando <= 50)
+                if (rando >= 11 && rando <= 50)
                 {
                     objectToDefine = right;
                 }
-                if (rando >= 51 && rando <= 80)
+                if (rando >= 51 && rando <= 90)
                 {
                     objectToDefine = left;
                 }
-                if (rando >= 81 && rando <= 100)
+                if (rando >= 91 && rando <= 100)
                 {
                     objectToDefine = t;
                 }

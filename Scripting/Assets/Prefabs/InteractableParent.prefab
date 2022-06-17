@@ -233,6 +233,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3535062243256214130, guid: 2f2d6c76ae146c746830634da1a1df41, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
     - target: {fileID: 3535062243256214131, guid: 2f2d6c76ae146c746830634da1a1df41, type: 3}
       propertyPath: m_RootOrder
       value: 0

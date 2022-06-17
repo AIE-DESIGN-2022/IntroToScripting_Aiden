@@ -11,22 +11,26 @@ public class GenerationManager : MonoBehaviour
     public GameObject player;
     private bool check;
     public GameObject pleaseWait;
-    public NavMeshSurface[] surfaces;
+    public NavMeshSurface surface;
     public List<Vector3> colliderLocations;
-    public Counter counter;
     public List<GameObject> pieces;
+    public float count;
+    public float maxPieces;
+    public List<Vector3> pieceLocations;
+    public List<GameObject> locationDict;
+    public bool checkedOne;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         pleaseWait = GameObject.FindGameObjectWithTag("Wait");
-        counter = FindObjectOfType<Counter>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        count = locationDict.Count;
         if (Time.timeSinceLevelLoad > generationTime + 2 && check == false)
         {
                 DeleteAllTriggers();
@@ -44,28 +48,39 @@ public class GenerationManager : MonoBehaviour
         pleaseWait.SetActive(false);
         check = true;
     }
-    public void DisableAllTriggers()
-    {
-        GameObject[] triggers = GameObject.FindGameObjectsWithTag("Trigger");
-        for (int i = 0; i < triggers.Length; i++)
-        {
-            triggers[i].gameObject.SetActive(false);
-        }
-    }
-    public void EnableAllTriggers()
-    {
-        GameObject[] triggers = GameObject.FindGameObjectsWithTag("Trigger");
-        for (int i = 0; i < triggers.Length; i++)
-        {
-            triggers[i].gameObject.SetActive(true);
-        }
-    }
-
     public void BakeNav()
     {
-        for (int i = 0; i < surfaces.Length; i++)
+        surface.BuildNavMesh();
+    }
+    public void CheckForOverlaps(GameObject objectToCheck)
+    {
+        bool addItem = false;
+        if (!checkedOne)
         {
-            surfaces[i].BuildNavMesh();
+            pieceLocations.Add(objectToCheck.transform.position);
+            locationDict.Add(objectToCheck);
+            checkedOne = true;
         }
+        else
+        {
+            foreach (Vector3 pos in pieceLocations)
+            {
+                if (Vector3.Distance(pos, objectToCheck.transform.position) < 0.8F)
+                {
+                    Debug.Log(objectToCheck);
+                    Destroy(objectToCheck);
+                }
+                else
+                {
+                    addItem = true;
+                }
+            }
+            if (addItem)
+            {
+                pieceLocations.Add(objectToCheck.transform.position);
+                locationDict.Add(objectToCheck);
+            }
+        }
+
     }
 }

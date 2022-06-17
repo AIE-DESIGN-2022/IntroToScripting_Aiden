@@ -17,9 +17,8 @@ public class Procedural : MonoBehaviour
     public bool triggerTwoCollided;
     public bool triggerThreeCollided;
     private float startTime;
-    public GameObject manager;
+    public GenerationManager manager;
     private bool generating;
-    public GameObject counter;
     public float pieceCount;
     public float maxCount;
     public GameObject objectToDefine;
@@ -43,11 +42,10 @@ public class Procedural : MonoBehaviour
         triggerOneCollided = false;
         triggerTwoCollided = false;
         triggerThreeCollided = false;
-        manager = GameObject.FindGameObjectWithTag("Manager");
-        counter = GameObject.FindGameObjectWithTag("Counter");
+        manager = FindObjectOfType<GenerationManager>();
         parent = GameObject.FindGameObjectWithTag("Parent");
         generating = true;
-        maxCount = counter.GetComponent<Counter>().maxPieces;
+        maxCount = manager.maxPieces;
         if (gameObject.tag == "Tunnel")
         {
             pieceOnePosition = new Vector3(-7, 0, 0);
@@ -89,35 +87,26 @@ public class Procedural : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pieceCount = counter.GetComponent<Counter>().count;
-        if (generating == true && Time.timeSinceLevelLoad > 1)
+        pieceCount = manager.count;
+        if (Time.time > startTime + 0.05F && generating == true && Time.timeSinceLevelLoad > 1)
         {
-            if (Time.time > startTime + 0.05F)
+            if (checkOne == true && !triggerOneCollided)
             {
-                if (checkOne == true && !triggerOneCollided)
-                {
-                    manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
-                    DeclairRando();
-                    CreateNextMazeOne(objectToDefine);
-                }
-                if (Time.time > startTime + 0.05F)
-                {
-                    if (checkTwo == true && !triggerTwoCollided)
-                    {
-                        manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
-                        DeclairRando();
-                        CreateNextMazeTwo(objectToDefine);
-                    }
-                }
-                if (Time.time > startTime + 0.5F)
-                {
-                    if (checkThree == true && !triggerThreeCollided)
-                    {
-                        manager.transform.GetComponent<GenerationManager>().generationTime = Time.time;
-                        DeclairRando();
-                        CreateNextMazeThree(objectToDefine);
-                    }
-                }
+                manager.generationTime = Time.time;
+                DeclairRando();
+                CreateNextMazeOne(objectToDefine);
+            }
+            if (checkTwo == true && !triggerTwoCollided)
+            {
+                manager.generationTime = Time.time;
+                DeclairRando();
+                CreateNextMazeTwo(objectToDefine);
+            }
+            if (checkThree == true && !triggerThreeCollided)
+            {
+                manager.generationTime = Time.time;
+                DeclairRando();
+                CreateNextMazeThree(objectToDefine);
             }
         }
         if (triggerOneCollided && triggerTwoCollided && triggerThreeCollided)
@@ -165,22 +154,44 @@ public class Procedural : MonoBehaviour
     {
         if (pieceCount < maxCount)
         {
-            rando = Random.Range(0, 4);
-            if (rando == 0)
+            rando = Random.Range(0, 100);
+            if (Time.timeSinceLevelLoad < 20)
             {
-                objectToDefine = tun;
+                if (rando >= 0 && rando <= 30)
+                {
+                    objectToDefine = tun;
+                }
+                if (rando >= 31 && rando <= 50)
+                {
+                    objectToDefine = right;
+                }
+                if (rando >= 51 && rando <= 70)
+                {
+                    objectToDefine = left;
+                }
+                if (rando >= 71 && rando <= 100)
+                {
+                    objectToDefine = t;
+                }
             }
-            if (rando == 1)
+            else
             {
-                objectToDefine = right;
-            }
-            if (rando == 2)
-            {
-                objectToDefine = left;
-            }
-            if (rando == 3)
-            {
-                objectToDefine = t;
+                if (rando >= 0 && rando <= 20)
+                {
+                    objectToDefine = tun;
+                }
+                if (rando >= 21 && rando <= 50)
+                {
+                    objectToDefine = right;
+                }
+                if (rando >= 51 && rando <= 80)
+                {
+                    objectToDefine = left;
+                }
+                if (rando >= 81 && rando <= 100)
+                {
+                    objectToDefine = t;
+                }
             }
         }
         else
@@ -190,7 +201,7 @@ public class Procedural : MonoBehaviour
     }
     public void AddToLists(GameObject objectToAdd)
     {
-        counter.GetComponent<Counter>().CheckForOverlaps(objectToAdd);
+        manager.CheckForOverlaps(objectToAdd);
     }
 
 }

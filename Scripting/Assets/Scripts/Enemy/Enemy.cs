@@ -7,7 +7,6 @@ public class Enemy : MonoBehaviour
 {
     public float damage;
     private GameObject cone;
-    private Transform target;
     public Slider suspicionMeter;
     public float maxSuspicion;
     public float currentSuspicion;
@@ -33,7 +32,6 @@ public class Enemy : MonoBehaviour
                 cone = child.gameObject;
             }
         }
-        target = theSpookySkeleton.transform;
         currentSuspicion = 0;
         suspicionMeter.maxValue = maxSuspicion;
         alerted = false;

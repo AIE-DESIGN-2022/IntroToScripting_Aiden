@@ -12,6 +12,7 @@ public class GenerationManager : MonoBehaviour
     public GameObject[] enemies;
     public GameObject player;
     private bool check;
+    private bool checkTwo;
     public GameObject pleaseWait;
     public NavMeshSurface surface;
     public List<Vector3> colliderLocations;
@@ -26,14 +27,15 @@ public class GenerationManager : MonoBehaviour
     private float colourChance;
     public GameObject objective;
     public GameObject enemy;
-    public GameObject patrol;
+    public GameObject telephone;
     private int randoSpawn;
     public GameObject scoring;
     public GameObject hudStuff;
     private float piecesToSpawn;
     private float enemiesToSpawn;
-    private float patrolsToSpawn;
+    private float telephonesToSpawn;
     public EnemyManager enemyManager;
+    public float telephoneNames;
 
     // Start is called before the first frame update
     void Awake()
@@ -48,6 +50,7 @@ public class GenerationManager : MonoBehaviour
         }
         locationDict.Add(firstTunnel);
         pieceLocations.Add(firstTunnel.transform.position);
+        telephoneNames = 0;
     }
 
     // Update is called once per frame
@@ -59,9 +62,16 @@ public class GenerationManager : MonoBehaviour
         {
             DeleteAllTriggers();
             BakeNav();
+        }
+        if (Time.timeSinceLevelLoad > generationTime + 3 && checkTwo == false)
+        {
             BeginInstantiation();
-            InstantiateObjective();
+            InstantiateTelephone();
             enemyManager.AddTelephones();
+            InstantiateObjective();
+            InstantiateEnemies();
+            scoring.gameObject.SetActive(true);
+            hudStuff.gameObject.SetActive(true);
         }
     }
     public void DeleteAllTriggers()
@@ -104,23 +114,22 @@ public class GenerationManager : MonoBehaviour
     public void BeginInstantiation()
     {
         piecesForSpawning = pieceLocations;
+        piecesForSpawning.RemoveAt(0);
         piecesToSpawn = pieceLocations.Count / 100;
-        enemiesToSpawn = pieceLocations.Count / 100;
+        enemiesToSpawn = pieceLocations.Count / 50;
+        telephonesToSpawn = pieceLocations.Count / 50;
+        checkTwo = true;
     }
     public void InstantiateObjective()
     {
         if (piecesToSpawn > 0)
         {
-            randoSpawn = Random.Range(0, piecesForSpawning.Count);
+            randoSpawn = Random.Range(10, piecesForSpawning.Count);
             GameObject obj = Instantiate(objective, transform.position, Quaternion.identity);
             obj.transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 1.0F, piecesForSpawning[randoSpawn].z);
             piecesForSpawning.RemoveAt(randoSpawn);
             piecesToSpawn--;
             InstantiateObjective();
-        }
-        else
-        {
-            InstantiateEnemies();
         }
     }
     //continue from here you idiot
@@ -128,32 +137,33 @@ public class GenerationManager : MonoBehaviour
     {
         if (enemiesToSpawn > 0)
         {
-            patrolsToSpawn = 2;
-            randoSpawn = Random.Range(0, piecesForSpawning.Count);
+            randoSpawn = Random.Range(10, piecesForSpawning.Count);
             GameObject enm = Instantiate(enemy, transform.position, Quaternion.identity);
-            enm.transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 2.0F, piecesForSpawning[randoSpawn].z);
+            enm.transform.GetChild(0).transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 2.0F, piecesForSpawning[randoSpawn].z);
+            enm.transform.GetChild(1).transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 2.0F, piecesForSpawning[randoSpawn].z);
+            enm.transform.GetChild(2).transform.position = new Vector3(piecesForSpawning[randoSpawn + 5].x, 2.0F, piecesForSpawning[randoSpawn + 5].z);
+            enm.transform.GetChild(3).transform.position = new Vector3(piecesForSpawning[randoSpawn - 5].x, 2.0F, piecesForSpawning[randoSpawn - 5].z);
+            enm.transform.GetChild(0).GetComponent<Navigation>().DeclairPhones();
             piecesForSpawning.RemoveAt(randoSpawn);
+            piecesForSpawning.RemoveAt(randoSpawn + 5);
+            piecesForSpawning.RemoveAt(randoSpawn - 5);
             enemiesToSpawn--;
-            InstantiatePatrol(enm);
             InstantiateEnemies();
         }
-        else
-        {
-            scoring.gameObject.SetActive(true);
-            hudStuff.gameObject.SetActive(true);
-        }
     }
-    public void InstantiatePatrol(GameObject Parent)
+    public void InstantiateTelephone()
     {
-        if (patrolsToSpawn > 0)
+        if (telephonesToSpawn > 0)
         {
-            randoSpawn = Random.Range(0, piecesForSpawning.Count);
-            GameObject pat = Instantiate(patrol, transform.position, Quaternion.identity);
-            pat.transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 1.0F, piecesForSpawning[randoSpawn].z);
-            pat.transform.parent = Parent.transform;
+            randoSpawn = Random.Range(10, piecesForSpawning.Count);
+            GameObject obj = Instantiate(telephone, transform.position, Quaternion.identity);
+            obj.name = "Telephone" + telephoneNames;
+            obj.transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 1.0F, piecesForSpawning[randoSpawn].z);
+            obj.transform.GetComponent<Telephone>().enemyManager.telephonesList.Add(obj.transform);
             piecesForSpawning.RemoveAt(randoSpawn);
-            patrolsToSpawn--;
-            InstantiatePatrol(Parent);
+            telephonesToSpawn--;
+            telephoneNames++;
+            InstantiateTelephone();
         }
     }
 }

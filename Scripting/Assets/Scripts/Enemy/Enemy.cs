@@ -133,7 +133,7 @@ public class Enemy : MonoBehaviour
         suspicionMeter.gameObject.SetActive(false);
         cone.gameObject.SetActive(false);
         transform.Rotate(-90, 0, 0);
-        transform.position = new Vector3(transform.position.x, transform.localPosition.y + 0.5F, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 1.0F, transform.position.z);
         disguiseInteract.SetActive(true);
     }
 }

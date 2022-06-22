@@ -18,9 +18,11 @@ public class Navigation : MonoBehaviour
     public GameObject parentEnemy;
     private DistanceComparer distanceComparer;
     private EnemyManager enemyManager;
+    private bool check;
     // Start is called before the first frame update
     void Awake()
     {
+        check = false;
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player");
         enemyManager = FindObjectOfType<EnemyManager>();
         foreach (Transform child in this.transform)
@@ -35,54 +37,57 @@ public class Navigation : MonoBehaviour
         nextLocation = 0;
         enemyScript = GetComponent<Enemy>();
         agent = GetComponent<NavMeshAgent>();
-        distanceComparer = new DistanceComparer(transform);
+        agent.enabled = false;
         SetAgentDestination();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Checks if player is alive before setting navigation.
-        if (enemyScript.alive == true)
+        if (check == true)
         {
-            //Makes enemy suspicious of player if the player is in their cone of vision and is currently interacting with something.
-            if (theSpookySkeleton.GetComponent<SkeletonController>().interacting == true && this.enemyScript.playerInCone)
+            //Checks if player is alive before setting navigation.
+            if (enemyScript.alive == true)
             {
-                suspicousOfPlayer = true;
+                //Makes enemy suspicious of player if the player is in their cone of vision and is currently interacting with something.
+                if (theSpookySkeleton.GetComponent<SkeletonController>().interacting == true && this.enemyScript.playerInCone)
+                {
+                    suspicousOfPlayer = true;
+                }
+                else
+                {
+                    suspicousOfPlayer = false;
+                }
+                //Stops all movement if the AI is suspicious of the player
+                if (suspicousOfPlayer == false || enemyScript.alerted == true)
+                {
+                    agent.isStopped = false;
+                }
+                if (suspicousOfPlayer == true && enemyScript.alerted == false)
+                {
+                    agent.isStopped = true;
+                }
+                //Sets destination to next point once the AI is within the distance to target threshold.
+                float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
+                if (distanceToTarget <= distanceReachedThreshold)
+                {
+                    SetAgentDestination();
+                }
             }
-            else
-            {
-                suspicousOfPlayer = false;
-            }
-            //Stops all movement if the AI is suspicious of the player
-            if (suspicousOfPlayer == false || enemyScript.alerted == true)
-            {
-                agent.isStopped = false;
-            }
-            if (suspicousOfPlayer == true && enemyScript.alerted == false)
+            //Stops all movement is AI is not alive.
+            else if (enemyScript.alive == false)
             {
                 agent.isStopped = true;
+
             }
-            //Sets destination to next point once the AI is within the distance to target threshold.
-            float distanceToTarget = Vector3.Distance(transform.position, patrolPoints[currentDestination].position);
-            if (distanceToTarget <= distanceReachedThreshold)
+            //Sets destination when AI becomes alerted. (Called from Enemy script)
+            if (enemyScript.alerted == true)
             {
                 SetAgentDestination();
             }
+            //Sorts telephone array based on distance from AI.
+            Array.Sort(telephones, distanceComparer);
         }
-        //Stops all movement is AI is not alive.
-        else if (enemyScript.alive == false)
-        {
-            agent.isStopped = true;
-
-        }
-        //Sets destination when AI becomes alerted. (Called from Enemy script)
-        if (enemyScript.alerted == true)
-        {
-            SetAgentDestination();
-        }
-        //Sorts telephone array based on distance from AI.
-        Array.Sort(telephones, distanceComparer);
     }
 
     //Sets destination.
@@ -107,6 +112,7 @@ public class Navigation : MonoBehaviour
         //Sets destination to nearest telephone if alerted.
         else if (enemyScript.alerted == true)
         {
+            agent.speed = 3;
             agent.SetDestination(enemyManager.telephones[0].transform.position);
         }
     }
@@ -140,5 +146,8 @@ public class Navigation : MonoBehaviour
     public void DeclairPhones()
     {
         telephones = enemyManager.telephones;
+        agent.enabled = true;
+        check = true;
+        distanceComparer = new DistanceComparer(transform);
     }
 }

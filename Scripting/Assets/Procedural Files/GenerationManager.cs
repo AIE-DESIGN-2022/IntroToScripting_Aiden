@@ -113,6 +113,10 @@ public class GenerationManager : MonoBehaviour
         piecesToSpawn = pieceLocations.Count / 100;
         enemiesToSpawn = pieceLocations.Count / 50;
         telephonesToSpawn = pieceLocations.Count / 50;
+        if (telephonesToSpawn == 0)
+        {
+            SceneManager.LoadScene("Maze");
+        }
         checkTwo = true;
     }
     public void InstantiateObjective()

@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FinalTime : MonoBehaviour
 {
-    public Text text;
+    public float time;
     public Timer timer;
+    public float secondsCount;
+    public int minuteCount;
     // Start is called before the first frame update
     void Start()
     {
-        timer = FindObjectOfType<Timer>();
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame
@@ -20,6 +21,8 @@ public class FinalTime : MonoBehaviour
     }
     public void DeclairTime()
     {
-        text.text = "I just waisted:" + string.Format("{00:00}:{01:00}", timer.minuteCount, timer.secondsCount);
+        timer = FindObjectOfType<Timer>();
+        secondsCount = timer.secondsCount;
+        minuteCount = timer.minuteCount;   
     }
 }

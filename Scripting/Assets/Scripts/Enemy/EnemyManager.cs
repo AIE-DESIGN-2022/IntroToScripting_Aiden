@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    public Transform[] telephones;
     public List<Transform> telephonesList;
     // Start is called before the first frame update
     void Awake()
@@ -17,8 +16,5 @@ public class EnemyManager : MonoBehaviour
     {
 
     }
-    public void AddTelephones()
-    {
-        telephones = telephonesList.ToArray();
-    }
+
 }

@@ -63,6 +63,7 @@ public class SkeletonController : MonoBehaviour
             if (Time.time > lastFire + fireDelay)
             {
                 skele.GetComponent<Animator>().SetTrigger("Attack");
+                DisableDisguise();
                 lastFire = Time.time;
             }
         }

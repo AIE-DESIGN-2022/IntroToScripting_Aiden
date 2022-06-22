@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class GenerationManager : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class GenerationManager : MonoBehaviour
     private int randoSpawn;
     public GameObject scoring;
     public GameObject hudStuff;
+    public GameObject timehud;
     private float piecesToSpawn;
     private float enemiesToSpawn;
     private float telephonesToSpawn;
@@ -62,16 +64,11 @@ public class GenerationManager : MonoBehaviour
         {
             DeleteAllTriggers();
             BakeNav();
-        }
-        if (Time.timeSinceLevelLoad > generationTime + 3 && checkTwo == false)
-        {
             BeginInstantiation();
             InstantiateTelephone();
-            enemyManager.AddTelephones();
             InstantiateObjective();
             InstantiateEnemies();
-            scoring.gameObject.SetActive(true);
-            hudStuff.gameObject.SetActive(true);
+            HudStuff();
         }
     }
     public void DeleteAllTriggers()
@@ -82,7 +79,6 @@ public class GenerationManager : MonoBehaviour
             Destroy(triggers[i].gameObject);
         }
         player.transform.position = new Vector3(2, 2, -2.5F);
-        pleaseWait.SetActive(false);
         check = true;
     }
     public void BakeNav()
@@ -97,7 +93,6 @@ public class GenerationManager : MonoBehaviour
         {
             if (Vector3.Distance(pos, objectToCheck.transform.position) < 0.8F)
             {
-                Debug.Log(objectToCheck);
                 Destroy(objectToCheck);
             }
             else
@@ -140,10 +135,10 @@ public class GenerationManager : MonoBehaviour
             randoSpawn = Random.Range(10, piecesForSpawning.Count);
             GameObject enm = Instantiate(enemy, transform.position, Quaternion.identity);
             enm.transform.GetChild(0).transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 2.0F, piecesForSpawning[randoSpawn].z);
+            enm.transform.GetChild(0).GetComponent<Navigation>().DeclairPhones();
             enm.transform.GetChild(1).transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 2.0F, piecesForSpawning[randoSpawn].z);
             enm.transform.GetChild(2).transform.position = new Vector3(piecesForSpawning[randoSpawn + 5].x, 2.0F, piecesForSpawning[randoSpawn + 5].z);
             enm.transform.GetChild(3).transform.position = new Vector3(piecesForSpawning[randoSpawn - 5].x, 2.0F, piecesForSpawning[randoSpawn - 5].z);
-            enm.transform.GetChild(0).GetComponent<Navigation>().DeclairPhones();
             piecesForSpawning.RemoveAt(randoSpawn);
             piecesForSpawning.RemoveAt(randoSpawn + 5);
             piecesForSpawning.RemoveAt(randoSpawn - 5);
@@ -159,12 +154,19 @@ public class GenerationManager : MonoBehaviour
             GameObject obj = Instantiate(telephone, transform.position, Quaternion.identity);
             obj.name = "Telephone" + telephoneNames;
             obj.transform.position = new Vector3(piecesForSpawning[randoSpawn].x, 1.0F, piecesForSpawning[randoSpawn].z);
-            obj.transform.GetComponent<Telephone>().enemyManager.telephonesList.Add(obj.transform);
+            enemyManager.telephonesList.Add(obj.transform);
             piecesForSpawning.RemoveAt(randoSpawn);
             telephonesToSpawn--;
             telephoneNames++;
             InstantiateTelephone();
         }
+    }
+    public void HudStuff()
+    {
+        scoring.gameObject.SetActive(true);
+        hudStuff.gameObject.SetActive(true);
+        timehud.gameObject.SetActive(true);
+        pleaseWait.SetActive(false);
     }
 }
 

@@ -21,7 +21,7 @@ public class LookPlayer : MonoBehaviour {
         target = GameObject.FindGameObjectWithTag("MainCamera").transform;
         //Rotates Object on the Y Axis to face the target camaera, used for HUD elements in world
         Vector3 rot = Quaternion.LookRotation(target.position - transform.position).eulerAngles;
-        rot.x = rot.z = 0;
+        rot.y = rot.z = 0;
         transform.rotation = Quaternion.Euler(rot);
     }
 }

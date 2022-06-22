@@ -8,6 +8,10 @@ public class Timer : MonoBehaviour
     public Text timerText;
     public float secondsCount;
     public int minuteCount;
+    private void Awake()
+    {
+        
+    }
     void Update()
     {
         UpdateTimerUI();
@@ -17,7 +21,7 @@ public class Timer : MonoBehaviour
     {
         //set timer UI
         secondsCount += Time.deltaTime;
-        timerText.text = string.Format("{00:00}:{01:00}",minuteCount, secondsCount);
+        timerText.text = "Time: " + string.Format("{00:00}:{01:00}",minuteCount, secondsCount);
         if (secondsCount >= 60)
         {
             minuteCount++;

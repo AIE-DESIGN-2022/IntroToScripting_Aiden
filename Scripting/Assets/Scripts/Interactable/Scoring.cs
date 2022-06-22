@@ -9,10 +9,11 @@ public class Scoring : MonoBehaviour
     public GameObject[] interactables;
     public int amountOfInteractables;
     public Text interactableText;
+    public FinalTime finalTime;
     // Start is called before the first frame update
     void Start()
     {
-
+        finalTime = FindObjectOfType<FinalTime>();
     }
 
     // Update is called once per frame
@@ -25,6 +26,7 @@ public class Scoring : MonoBehaviour
         //Changes to win scene when the number of interactables in equal to zero
         if (amountOfInteractables <= 0)
         {
+            finalTime.DeclairTime();
             SceneManager.LoadScene("Win");
         }
 

@@ -19,6 +19,7 @@ public class Navigation : MonoBehaviour
     private DistanceComparer distanceComparer;
     private EnemyManager enemyManager;
     private bool check;
+    private int i;
     // Start is called before the first frame update
     void Awake()
     {
@@ -113,7 +114,7 @@ public class Navigation : MonoBehaviour
         else if (enemyScript.alerted == true)
         {
             agent.speed = 3;
-            agent.SetDestination(enemyManager.telephones[0].transform.position);
+            agent.SetDestination(telephones[0].transform.position);
         }
     }
     //Compares distance of telephones
@@ -145,9 +146,12 @@ public class Navigation : MonoBehaviour
     }
     public void DeclairPhones()
     {
-        telephones = enemyManager.telephones;
-        agent.enabled = true;
-        check = true;
-        distanceComparer = new DistanceComparer(transform);
+        if (check == false)
+        {
+            telephones = enemyManager.telephonesList.ToArray();
+            agent.enabled = true;
+            check = true;
+            distanceComparer = new DistanceComparer(transform);
+        }
     }
 }

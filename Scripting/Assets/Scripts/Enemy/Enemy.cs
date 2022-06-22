@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player").gameObject;
+        maxSuspicion = 1.5F;
         foreach (Transform child in this.transform)
         {
             if (child.tag == "EnemyInteractable")

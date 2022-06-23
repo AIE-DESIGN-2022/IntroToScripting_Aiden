@@ -28,6 +28,7 @@ TagManager:
   - Parent
   - X
   - Patrol
+  - Parent2
   layers:
   - Default
   - TransparentFX

@@ -10,10 +10,12 @@ public class Scoring : MonoBehaviour
     public int amountOfInteractables;
     public Text interactableText;
     public FinalTime finalTime;
+    public ManagerManager managerManager;
     // Start is called before the first frame update
     void Start()
     {
         finalTime = FindObjectOfType<FinalTime>();
+        managerManager = FindObjectOfType<ManagerManager>();
     }
 
     // Update is called once per frame
@@ -27,7 +29,13 @@ public class Scoring : MonoBehaviour
         if (amountOfInteractables <= 0)
         {
             finalTime.DeclairTime();
+            managerManager.maxPieces = managerManager.maxPieces + 100;
+            if (managerManager.maxPieces > 5000)
+            {
+                managerManager.maxPieces = 5000;
+            }
             SceneManager.LoadScene("Win");
+
         }
 
     }

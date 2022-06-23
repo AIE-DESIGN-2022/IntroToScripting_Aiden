@@ -39,7 +39,6 @@ public class Navigation : MonoBehaviour
         enemyScript = GetComponent<Enemy>();
         agent = GetComponent<NavMeshAgent>();
         agent.enabled = false;
-        SetAgentDestination();
     }
 
     // Update is called once per frame
@@ -92,7 +91,7 @@ public class Navigation : MonoBehaviour
     }
 
     //Sets destination.
-    void SetAgentDestination()
+    public void SetAgentDestination()
     {
         if (enemyScript.alerted == false)
         {

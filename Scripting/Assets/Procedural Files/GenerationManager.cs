@@ -45,6 +45,7 @@ public class GenerationManager : MonoBehaviour
     public float telephoneNames;
     public GameObject parent;
     public ManagerManager managerManager;
+    public ArrowPointy arrowPointy;
 
     // Start is called before the first frame update
     void Awake()
@@ -54,6 +55,7 @@ public class GenerationManager : MonoBehaviour
         parent = GameObject.FindGameObjectWithTag("Parent2");
         managerManager = FindObjectOfType<ManagerManager>();
         enemyManager = FindObjectOfType<EnemyManager>();
+        arrowPointy = FindObjectOfType<ArrowPointy>();
         colourChance = Random.Range(0, 1000);
         if (colourChance == 777)
         {
@@ -138,7 +140,6 @@ public class GenerationManager : MonoBehaviour
         randoMaxTwo = 0.20F;
         randoMaxThree = 0.20F;
     }
-    //Redo this somehow
     public void InstantiateObjective()
     {
         if (piecesToSpawn > 0)

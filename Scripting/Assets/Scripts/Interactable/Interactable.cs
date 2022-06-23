@@ -13,11 +13,17 @@ public class Interactable : MonoBehaviour
     public Slider progressBar;
     public bool interacting;
     private bool check;
+    private ArrowPointy arrowPointy;
     // Start is called before the first frame update
     void Start()
     {
         interactPrompt = transform.GetChild(2).gameObject;
         theSpookySkeleton = GameObject.FindGameObjectWithTag("Player").gameObject;
+        arrowPointy = FindObjectOfType<ArrowPointy>();
+        if (transform.parent.tag != "Enemy")
+        {
+            arrowPointy.target.Add(this.gameObject);
+        }
         currentProgress = 0;
     }
 
@@ -93,6 +99,7 @@ public class Interactable : MonoBehaviour
                 interactPrompt.SetActive(false);
                 interacting = false;
                 theSpookySkeleton.GetComponent<SkeletonController>().interacting = false;
+                arrowPointy.target.Remove(this.gameObject);
                 Destroy(transform.parent.gameObject);
             }
         }

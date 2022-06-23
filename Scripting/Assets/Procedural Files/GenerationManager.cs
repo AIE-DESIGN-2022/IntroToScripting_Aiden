@@ -62,11 +62,11 @@ public class GenerationManager : MonoBehaviour
         locationDict.Add(firstTunnel);
         pieceLocations.Add(firstTunnel.transform.position);
         telephoneNames = 0;
-        if (managerManager.maxPieces == 0)
+        if (managerManager.level == 0)
         {
-            managerManager.maxPieces = 100;
+            managerManager.level = 1;
         }
-        maxPieces = managerManager.maxPieces;
+        maxPieces = managerManager.level * 100;
     }
 
     // Update is called once per frame
@@ -138,6 +138,7 @@ public class GenerationManager : MonoBehaviour
         randoMaxTwo = 0.20F;
         randoMaxThree = 0.20F;
     }
+    //Redo this somehow
     public void InstantiateObjective()
     {
         if (piecesToSpawn > 0)

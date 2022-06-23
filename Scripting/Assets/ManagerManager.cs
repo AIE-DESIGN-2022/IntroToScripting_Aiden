@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ManagerManager : MonoBehaviour
 {
-    public float maxPieces;
+    public float level;
     // Start is called before the first frame update
     void Awake()
     {

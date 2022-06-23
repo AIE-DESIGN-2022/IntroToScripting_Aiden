@@ -29,11 +29,7 @@ public class Scoring : MonoBehaviour
         if (amountOfInteractables <= 0)
         {
             finalTime.DeclairTime();
-            managerManager.maxPieces = managerManager.maxPieces + 100;
-            if (managerManager.maxPieces > 5000)
-            {
-                managerManager.maxPieces = 5000;
-            }
+            managerManager.level = managerManager.level + 1;
             SceneManager.LoadScene("Win");
 
         }

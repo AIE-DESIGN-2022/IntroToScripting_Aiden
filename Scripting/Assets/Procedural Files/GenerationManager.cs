@@ -81,10 +81,11 @@ public class GenerationManager : MonoBehaviour
             DeleteAllTriggers();
             BakeNav();
             BeginInstantiation();
-            InstantiateTelephone();
-            InstantiateObjective();
-            InstantiateEnemies();
-            HudStuff();
+            //InstantiateTelephone();
+            //InstantiateObjective();
+            //InstantiateEnemies();
+            //HudStuff();
+            pleaseWait.SetActive(false);
         }
     }
     public void DeleteAllTriggers()

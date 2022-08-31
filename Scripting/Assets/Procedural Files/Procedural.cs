@@ -9,9 +9,9 @@ public class Procedural : MonoBehaviour
     public GameObject right;
     public GameObject t;
     public GameObject u;
-    private bool checkOne;
-    private bool checkTwo;
-    private bool checkThree;
+    public bool checkOne;
+    public bool checkTwo;
+    public bool checkThree;
     private float rando;
     private float startTime;
     public GenerationManager manager;
@@ -28,6 +28,8 @@ public class Procedural : MonoBehaviour
     private float pieceTwoRotation;    
     private float pieceThreeRotation;
     private Color randoColor;
+    public GameObject player;
+    public bool yes = true;
 
     // Start is called before the first frame update
     void Awake()
@@ -38,11 +40,12 @@ public class Procedural : MonoBehaviour
         startTime = Time.time;
         manager = FindObjectOfType<GenerationManager>();
         parent = GameObject.FindGameObjectWithTag("Parent");
-        maxCount = manager.maxPieces;
-        if (manager.colour)
+        //maxCount = manager.maxPieces;
+        player = GameObject.FindGameObjectWithTag("Player");
+/*        if (manager.colour)
         {
             RandomiseColor();
-        }
+        }*/
         if (gameObject.tag == "Tunnel")
         {
             pieceOnePosition = new Vector3(-7, 0, 0);
@@ -78,27 +81,33 @@ public class Procedural : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pieceCount = manager.count;
-        if (Time.time > startTime + 0.05F && Time.timeSinceLevelLoad > 1)
+        //pieceCount = manager.count;
+        float distanceFromPlayer = Vector3.Distance(this.transform.position, player.transform.position); 
+        if (Time.time > startTime + 0.05F && Time.timeSinceLevelLoad > 1 && distanceFromPlayer < 15)
         {
-            if (checkOne == true)
+          if (checkOne == true)
             {
-                manager.generationTime = Time.timeSinceLevelLoad;
+                //manager.generationTime = Time.timeSinceLevelLoad;
                 DeclairRando();
                 CreateNextMazeOne(objectToDefine);
             }
             if (checkTwo == true)
             {
-                manager.generationTime = Time.timeSinceLevelLoad;
+                //manager.generationTime = Time.timeSinceLevelLoad;
                 DeclairRando();
                 CreateNextMazeTwo(objectToDefine);
             }
             if (checkThree == true && gameObject.tag == "T")
             {
-                manager.generationTime = Time.timeSinceLevelLoad;
+                //manager.generationTime = Time.timeSinceLevelLoad;
                 DeclairRando();
                 CreateNextMazeThree(objectToDefine);
             }
+        }
+        if (distanceFromPlayer > 16)
+        {
+            RemoveFromLists(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
     public void CreateNextMazeOne(GameObject obj)
@@ -139,8 +148,6 @@ public class Procedural : MonoBehaviour
     }
         public void DeclairRando()
     {
-        if (pieceCount < maxCount)
-        {
             rando = Random.Range(0, 100);
             if (Time.timeSinceLevelLoad < 10)
             {
@@ -180,15 +187,14 @@ public class Procedural : MonoBehaviour
                     objectToDefine = t;
                 }
             }
-        }
-        else
-        {
-            objectToDefine = u;
-        }
     }
     public void AddToLists(GameObject objectToAdd)
     {
         manager.CheckForOverlaps(objectToAdd);
+    }    
+    public void RemoveFromLists(GameObject objectToRemove)
+    {
+        manager.Remove(objectToRemove);
     }
     public void RandomiseColor()
     {

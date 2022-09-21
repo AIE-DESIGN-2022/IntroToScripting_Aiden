@@ -46,11 +46,12 @@ public class GenerationManager : MonoBehaviour
     public GameObject parent;
     public ManagerManager managerManager;
     public ArrowPointy arrowPointy;
+    public GameObject overviewCamera;
+    public GameObject playerCamera;
 
     // Start is called before the first frame update
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         pleaseWait = GameObject.FindGameObjectWithTag("Wait");
         parent = GameObject.FindGameObjectWithTag("Parent2");
         managerManager = FindObjectOfType<ManagerManager>();
@@ -94,6 +95,8 @@ public class GenerationManager : MonoBehaviour
         {
             Destroy(triggers[i].gameObject);
         }
+        player.gameObject.SetActive(true);
+        arrowPointy.gameObject.SetActive(true);
         player.transform.position = new Vector3 (pieceLocations[0].x, pieceLocations[0].y + 1, pieceLocations[0].z);
         check = true;
     }
@@ -221,7 +224,11 @@ public class GenerationManager : MonoBehaviour
         scoring.gameObject.SetActive(true);
         hudStuff.gameObject.SetActive(true);
         timehud.gameObject.SetActive(true);
-        pleaseWait.SetActive(false);
+        //pleaseWait.SetActive(false);
+        overviewCamera.gameObject.SetActive(false);
+        playerCamera.gameObject.SetActive(true);
+        
+
     }
 }
 

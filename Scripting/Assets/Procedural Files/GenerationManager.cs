@@ -95,8 +95,6 @@ public class GenerationManager : MonoBehaviour
         {
             Destroy(triggers[i].gameObject);
         }
-        player.gameObject.SetActive(true);
-        arrowPointy.gameObject.SetActive(true);
         player.transform.position = new Vector3 (pieceLocations[0].x, pieceLocations[0].y + 1, pieceLocations[0].z);
         check = true;
     }

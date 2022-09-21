@@ -208,7 +208,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'You Waisted:'
+  m_Text: 'You Wasted:'
 --- !u!222 &71458009
 CanvasRenderer:
   m_ObjectHideFlags: 0
